@@ -2,17 +2,22 @@
 
 //--------------------------------------------------------------
 void CodeFlowApp::setup(){
-    
+    mAudioAnalyser.setup();
 }
 
 //--------------------------------------------------------------
 void CodeFlowApp::update(){
-    
-}
+
+}   
 
 //--------------------------------------------------------------
 void CodeFlowApp::draw(){
-    
+    ofBackground(0);
+    ofSetColor(200);
+    AudioModel audioModel = mAudioAnalyser.getAudioModel();
+    for(int i = 0; i < audioModel.mFft.size(); i++) {
+        ofDrawCircle(200 + i*2, 0 + ofGetHeight() * audioModel.mFft[i], 2);
+    }
 }
 
 //--------------------------------------------------------------

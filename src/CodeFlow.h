@@ -1,12 +1,13 @@
 #pragma once
 
 #include "ofMain.h"
+#include "engine/AudioAnalyser.h"
 
 class CodeFlowApp : public ofBaseApp{
 	private:
-
+		AudioAnalyser mAudioAnalyser;
 	public:
-
+		
 		void setup();
 		void update();
 		void draw();
