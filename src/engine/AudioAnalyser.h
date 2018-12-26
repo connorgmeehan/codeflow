@@ -22,7 +22,6 @@ class AudioAnalyser : public ofBaseApp {
 
         float * mFftOutput;
         float * mEqFunction;
-        float * mEqOutput;
 };
 
 #endif
