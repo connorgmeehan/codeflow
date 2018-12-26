@@ -1,11 +1,22 @@
 #include "AudioAnalyser.h"
 
 void AudioAnalyser::setup() {
-    mFft = ofxFft::create(BUFFER_SIZE, OF_FFT_WINDOW_HAMMING, OF_FFT_FFTW);
+    ofLog() << "AudioAnalyser::setup()";
+    // Setup FFT and EQ function
+    mFft = ofxFft::create(BUFFER_SIZE, OF_FFT_WINDOW_BARTLETT);
+
+    ofLog() << "\tSetting mFftOutput, mEqOutput and mEqFunction to " << mFft->getBinSize() << " in size. ";
+    mFftOutput = new float[mFft->getBinSize()];
+    mEqOutput = new float[mFft->getBinSize()];
+    mEqFunction = new float[mFft->getBinSize()];
+
+    for(int i = 0; i < mFft->getBinSize(); i++){
+		mEqFunction[i] = (0.54f - 0.46f*(double)cos(2.0f * PI*i)/mFft->getBinSize());
+    }
     
+    // Initialise sound stream
     ofSoundStreamSettings settings;
 
-    mSoundStream.printDeviceList();
 	auto devices = mSoundStream.getMatchingDevices("default");
     if(!devices.empty()) {
         settings.setInDevice(devices[0]);
@@ -18,22 +29,21 @@ void AudioAnalyser::setup() {
     settings.sampleRate = 44100;
     settings.bufferSize = BUFFER_SIZE;
 
-    mSoundStream.setup(settings);
-}
+    mSoundStream.setup(settings);}
 
 void AudioAnalyser::audioIn(ofSoundBuffer & buffer) { 
+    ofLog() << "audioIn init; binsize: " << mFft->getBinSize() << "; signalsize: " << mFft->getSignalSize();
+    int binSize = mFft->getBinSize();
+    ofLog() << "setting signal";
     mFft->setSignal(buffer.getBuffer());
-    float * curFft = mFft->getAmplitude();
-    int binSize = BUFFER_SIZE;
+    ofLog() << "copying to output buffer; amplitude location: " << mFft->getAmplitude() << " fft bin size: " << mFft->getBinSize();
+    memcpy(mFftOutput, mFft->getAmplitude(), sizeof(float) * mFft->getBinSize());
 
-    auto & settingsBin = mAudioModel.mFft;
-
-    for(int i = 0; i < binSize; i++){
-        // curFft[i] = abs((curFft[i]/(binSize*(float)1/binSize))*(1+pow(i, exponent)/binSize));//Then make low frequency values weighted lower than high frequency with pow
-        settingsBin[i] = std::max(settingsBin[i], curFft[i])*mDecay;
+    ofLog() << "applying eq function";
+    for(int i = 0; i < binSize; i++) {
+		mAudioModel.mFft[i] = mFftOutput[i] * mEqFunction[i];
     }
-
-    // Beat analyser business
+    ofLog() << "copying to model -> done";
 }
 
 AudioModel AudioAnalyser::getAudioModel(){

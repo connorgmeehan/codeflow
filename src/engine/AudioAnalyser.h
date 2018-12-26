@@ -20,8 +20,9 @@ class AudioAnalyser : public ofBaseApp {
 
         AudioModel mAudioModel;
 
-        float exponent = 1.8f;
-        float mDecay = 0.95f;
+        float * mFftOutput;
+        float * mEqFunction;
+        float * mEqOutput;
 };
 
 #endif
