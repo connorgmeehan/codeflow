@@ -25,15 +25,17 @@ void CodeFlowApp::draw(){
     fftMesh.draw();
 
     ofNoFill();
-    for(int i = 0; i < audioModel.beats.size(); i++) {
+    auto processBeatModels = mAudioAnalyser.getProcessBeatModels();
+    for(int i = 0; i < processBeatModels.size(); i++) {
         auto & beat = audioModel.beats[i];
+        auto & processBeat = processBeatModels[i];
         if(beat.mActive) {
             ofSetColor(ofColor::green);
         } else {
             ofSetColor(ofColor::red);
         }
-        ofDrawRectangle(500 + i*20, 40, 20, 40-beat.mAmp*40);
-        ofDrawLine(500 + i*20, 40, 500 + (i+1)*20, 40-beat.mVel*40);
+        ofDrawRectangle(processBeat.getLocation()*2-processBeat.getRadius(), 400, processBeat.getRadius()*2, -beat.mAmp*400);
+        ofDrawLine(processBeat.getLocation()*2-processBeat.getRadius(), 40, processBeat.getLocation()*2+processBeat.getRadius(), 40-beat.mVel*40);
     }
 
     std::string debugString = "fps: " + ofToString(ofGetFrameRate(), 2) + "fps\n";

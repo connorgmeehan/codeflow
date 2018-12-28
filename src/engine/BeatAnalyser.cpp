@@ -21,3 +21,7 @@ void BeatAnalyser::addAnalyser(int location, int radius, int historySize) {
     mBeatProcessors.push_back(ProcessBeatModel(location, radius, historySize));
     mBeatModels.push_back(BeatModel(false, 0, 0));
 }
+
+std::vector<ProcessBeatModel> BeatAnalyser::getProcessBeatModels() {
+    return mBeatProcessors;
+}

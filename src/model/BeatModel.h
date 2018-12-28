@@ -20,6 +20,11 @@ class ProcessBeatModel {
         ProcessBeatModel(int location, int radius, int historySize);
         static void setTriggerGradient(float triggerGradient);
         BeatModel audioIn(std::vector<float> & fft);
+
+        float getTriggerGradient() { return mTriggerGradient; }
+        int getLocation() { return mLocation; }
+        int getRadius() { return mRadius; }
+        std::vector<float> & getHistory() { return mHistory; }
 };
 
 #endif

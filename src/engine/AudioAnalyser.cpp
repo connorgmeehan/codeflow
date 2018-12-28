@@ -69,3 +69,17 @@ DrawModel AudioAnalyser::getDrawModel(){
     mSoundMutex.unlock();
     return tempModel;
 }
+
+ProcessAudioModel AudioAnalyser::getProcessAudioModel() {
+    mSoundMutex.lock();
+    ProcessAudioModel tempModel = mProcessAudioModel;
+    mSoundMutex.unlock();
+    return tempModel;
+}
+
+std::vector<ProcessBeatModel> AudioAnalyser::getProcessBeatModels() {
+    mSoundMutex.lock();
+    std::vector<ProcessBeatModel> tempModels = mBeatAnalyser.getProcessBeatModels();
+    mSoundMutex.unlock();
+    return tempModels;
+}

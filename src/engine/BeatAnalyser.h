@@ -11,6 +11,8 @@ class BeatAnalyser {
 
         void audioIn(std::vector<float> & fft);
         std::vector<BeatModel> getBeats();
+
+        std::vector<ProcessBeatModel> getProcessBeatModels();
     private:
         void addAnalyser(int location, int radius, int historySize);
         std::vector<ProcessBeatModel> mBeatProcessors;

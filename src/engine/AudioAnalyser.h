@@ -13,6 +13,9 @@ class AudioAnalyser : public ofBaseApp {
 
         DrawModel getDrawModel();
         void audioIn(ofSoundBuffer & buffer);
+
+        ProcessAudioModel getProcessAudioModel();
+        std::vector<ProcessBeatModel> getProcessBeatModels();
     private:
 
         ofxFft * mFft;
