@@ -19,14 +19,9 @@ class AudioAnalyser : public ofBaseApp {
         ofSoundStream mSoundStream;
         ofMutex mSoundMutex;
 
+        ProcessAudioModel mProcessAudioModel;
         DrawModel mDrawModel;
         BeatAnalyser mBeatAnalyser;
-
-        float * mFftOutput;
-        float * mEqFunction;
-
-        float mFftSmoothSpeed = 0.01f;
-        float mSmoothedPeak;
 };
 
 #endif

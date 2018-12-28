@@ -7,14 +7,7 @@ void AudioAnalyser::setup() {
     // Setup FFT and EQ function
     mFft = ofxFft::create(BUFFER_SIZE, OF_FFT_WINDOW_BARTLETT);
 
-    mFftOutput = new float[mFft->getBinSize()];
-    mEqFunction = new float[mFft->getBinSize()];
-
-    // removes logorithmic scaling on fft
-    for(int i = 0; i < mFft->getBinSize(); i++){
-		// mEqFunction[i] = (0.54f - 0.46f*(double)cos(2.0f * PI*i)/mFft->getBinSize());
-        mEqFunction[i] = 0.0f;
-    }
+    mProcessAudioModel = ProcessAudioModel(mFft->getSignalSize());
     
     // Initialise sound stream
     ofSoundStreamSettings settings;
@@ -40,28 +33,32 @@ void AudioAnalyser::audioIn(ofSoundBuffer & buffer) {
     int binSize = mFft->getBinSize();
     mFft->setSignal(buffer.getBuffer());
     auto & fft = mDrawModel.audio.mFft;
-    memcpy(mFftOutput, mFft->getAmplitude(), sizeof(float) * mFft->getBinSize());
+
+    auto & fftOutput = mProcessAudioModel.mFftOutput;
+    auto & eqFunction = mProcessAudioModel.mEqFunction;
+    float smoothedPeak = mProcessAudioModel.mSmoothedPeak;
+    float fftSmoothSpeed = mProcessAudioModel.mFftSmoothSpeed;
+    float fftDecay = mProcessAudioModel.mFftDecay;
+
+    memcpy(&fftOutput[0], mFft->getAmplitude(), sizeof(float) * mFft->getBinSize());
 
     float curPeak = 0.0f;
     for(int i = 0; i < binSize; i++) {
 
         // roughly find the average power of each spectrum over time
-        mEqFunction[i] = glm::mix(mEqFunction[i], mFftOutput[i], mFftSmoothSpeed);
+        eqFunction[i] = glm::mix(eqFunction[i], fftOutput[i], fftSmoothSpeed);
 
         // subtract that power from the output
-		mFftOutput[i] -= mEqFunction[i];
+		fftOutput[i] -= eqFunction[i];
         
         // Update current peak based on scaled output
-        curPeak = glm::max(curPeak, mFftOutput[i]);
+        curPeak = glm::max(curPeak, fftOutput[i]);
 
         // multiply that by a smoothed peak value
-        fft[i] = mFftOutput[i] * 1/mSmoothedPeak;
+        fft[i] = glm::max(fft[i], glm::abs(fftOutput[i] * 1/smoothedPeak)) * fftDecay;
     }
     // Update smoothed peak by mixing it slowly towards this frames current peak
-    mSmoothedPeak = glm::mix(mSmoothedPeak, curPeak, mFftSmoothSpeed);
-
-    ofLog() << "\taudioIn -> mSmoothedPeak: " << mSmoothedPeak;
-
+    mProcessAudioModel.mSmoothedPeak = glm::mix(mProcessAudioModel.mSmoothedPeak, curPeak, fftSmoothSpeed);
     mBeatAnalyser.audioIn(fft);
     mDrawModel.beats = mBeatAnalyser.getBeats();
 }
