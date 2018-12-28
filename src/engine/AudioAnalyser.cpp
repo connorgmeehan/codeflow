@@ -72,7 +72,7 @@ DrawModel AudioAnalyser::getDrawModel(){
 
 ConfigModel AudioAnalyser::getConfigModel() {
     mSoundMutex.lock();
-    ConfigModel tempModel{ mProcessAudioModel, mBeatAnalyser.getProcessBeatModels() };
+    ConfigModel tempModel{ mBeatAnalyser.getProcessBeatModels(), mProcessAudioModel };
     mSoundMutex.unlock();
     return tempModel;
 }
