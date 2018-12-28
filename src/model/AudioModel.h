@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#define BUFFER_SIZE 256
+#define BUFFER_SIZE 512
 
 struct AudioModel {
     std::vector<float> mFft;

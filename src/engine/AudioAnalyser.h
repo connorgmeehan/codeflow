@@ -24,6 +24,9 @@ class AudioAnalyser : public ofBaseApp {
 
         float * mFftOutput;
         float * mEqFunction;
+
+        float mFftSmoothSpeed = 0.01f;
+        float mSmoothedPeak;
 };
 
 #endif

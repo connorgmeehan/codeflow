@@ -15,9 +15,14 @@ void CodeFlowApp::draw(){
     ofBackground(0);
     ofSetColor(200);
     DrawModel audioModel = mAudioAnalyser.getDrawModel();
+
+    ofPolyline fftMesh;
+    fftMesh.addVertex(0, 400);
     for(int i = 0; i < audioModel.audio.mFft.size(); i++) {
-        ofDrawCircle(i*2, 0 + ofGetHeight() * audioModel.audio.mFft[i], 2);
+        fftMesh.addVertex(i*2.0f, 400.0f-400.0f*audioModel.audio.mFft[i]);
     }
+    fftMesh.addVertex(audioModel.audio.mFft.size()*2.0f, 400.0f);
+    fftMesh.draw();
 
     ofNoFill();
     for(int i = 0; i < audioModel.beats.size(); i++) {
