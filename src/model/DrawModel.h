@@ -9,4 +9,9 @@ struct DrawModel {
     AudioModel audio;
 };
 
+struct ConfigModel {
+    std::vector<ProcessBeatModel> processBeats;
+    ProcessAudioModel processAudio;
+};
+
 #endif

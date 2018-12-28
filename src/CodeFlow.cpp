@@ -25,7 +25,7 @@ void CodeFlowApp::draw(){
     fftMesh.draw();
 
     ofNoFill();
-    auto processBeatModels = mAudioAnalyser.getProcessBeatModels();
+    auto processBeatModels = mAudioAnalyser.getConfigModel().processBeats;
     for(int i = 0; i < processBeatModels.size(); i++) {
         auto & beat = audioModel.beats[i];
         auto & processBeat = processBeatModels[i];
