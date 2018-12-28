@@ -13,12 +13,14 @@ struct BeatModel {
 class ProcessBeatModel {
     private:
         static float mTriggerGradient;
+        static float mGradientScale;
         int mLocation;
         int mRadius;
         std::vector<float> mHistory;
     public: 
         ProcessBeatModel(int location, int radius, int historySize);
         static void setTriggerGradient(float triggerGradient);
+        static void setGradientScale(float gradientScale);
         BeatModel audioIn(std::vector<float> & fft);
 
         float getTriggerGradient() { return mTriggerGradient; }

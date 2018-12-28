@@ -1,10 +1,11 @@
 #include "BeatAnalyser.h"
 
 void BeatAnalyser::setup() {
-    addAnalyser(5, 5, 4);
+    addAnalyser(254, 5, 4);
     addAnalyser(20, 10, 4);
     addAnalyser(40, 15, 4);
     ProcessBeatModel::setTriggerGradient(0.5f);
+    ProcessBeatModel::setGradientScale(100.0f);
 }
 
 void BeatAnalyser::audioIn(std::vector<float> & fft) {

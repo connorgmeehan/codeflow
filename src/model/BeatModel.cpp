@@ -7,6 +7,7 @@ BeatModel::BeatModel(bool active, float amp, float vel) :
 }
 
 float ProcessBeatModel::mTriggerGradient;
+float ProcessBeatModel::mGradientScale;
 
 ProcessBeatModel::ProcessBeatModel(int location, int radius, int historySize) :
     mLocation(location),
@@ -16,6 +17,10 @@ ProcessBeatModel::ProcessBeatModel(int location, int radius, int historySize) :
 
 void ProcessBeatModel::setTriggerGradient(float triggerGradient) {
     mTriggerGradient = triggerGradient;
+}
+
+void ProcessBeatModel::setGradientScale(float gradientScale) {
+    mGradientScale = gradientScale;
 }
 
 BeatModel ProcessBeatModel::audioIn(std::vector<float> & fft) {
@@ -31,7 +36,7 @@ BeatModel ProcessBeatModel::audioIn(std::vector<float> & fft) {
     for(int i = 0; i < mHistory.size()-1; i++) {
         gradient += mHistory[i+1] - mHistory[i];
     }
-    gradient /= mHistory.size();
+    gradient = (gradient*mGradientScale) / mHistory.size();
 
     // generate BeatModel for returning
     return BeatModel(gradient >= mTriggerGradient, avg, gradient);

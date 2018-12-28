@@ -5,7 +5,7 @@ void AudioAnalyser::setup() {
     mBeatAnalyser.setup();
 
     // Setup FFT and EQ function
-    mFft = ofxFft::create(BUFFER_SIZE, OF_FFT_WINDOW_BARTLETT);
+    mFft = ofxFft::create(BUFFER_SIZE, OF_FFT_WINDOW_HANN);
 
     mProcessAudioModel = ProcessAudioModel(mFft->getSignalSize());
     
