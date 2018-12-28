@@ -4,13 +4,14 @@
 #include "ofMain.h"
 #include "ofxFft.h"
 
-#include "AudioModel.h"
+#include "BeatAnalyser.h"
+#include "DrawModel.h"
 
 class AudioAnalyser : public ofBaseApp {
     public:
         void setup();
 
-        AudioModel getAudioModel();
+        DrawModel getDrawModel();
         void audioIn(ofSoundBuffer & buffer);
     private:
 
@@ -18,7 +19,8 @@ class AudioAnalyser : public ofBaseApp {
         ofSoundStream mSoundStream;
         ofMutex mSoundMutex;
 
-        AudioModel mAudioModel;
+        DrawModel mDrawModel;
+        BeatAnalyser mBeatAnalyser;
 
         float * mFftOutput;
         float * mEqFunction;

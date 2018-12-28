@@ -2,6 +2,8 @@
 
 void AudioAnalyser::setup() {
     ofLog() << "AudioAnalyser::setup()";
+    mBeatAnalyser.setup();
+    
     // Setup FFT and EQ function
     mFft = ofxFft::create(BUFFER_SIZE, OF_FFT_WINDOW_BARTLETT);
 
@@ -28,22 +30,26 @@ void AudioAnalyser::setup() {
     settings.sampleRate = 44100;
     settings.bufferSize = BUFFER_SIZE;
 
-    mSoundStream.setup(settings);}
+    mSoundStream.setup(settings);
+
+}
 
 void AudioAnalyser::audioIn(ofSoundBuffer & buffer) { 
     int binSize = mFft->getBinSize();
     mFft->setSignal(buffer.getBuffer());
+    auto & fft = mDrawModel.audio.mFft;
     memcpy(mFftOutput, mFft->getAmplitude(), sizeof(float) * mFft->getBinSize());
     for(int i = 0; i < binSize; i++) {
-		mAudioModel.mFft[i] = mFftOutput[i] * mEqFunction[i];
+		fft[i] = mFftOutput[i] * mEqFunction[i];
     }
 
-
+    mBeatAnalyser.audioIn(fft);
+    mDrawModel.beats = mBeatAnalyser.getBeats();
 }
 
-AudioModel AudioAnalyser::getAudioModel(){
+DrawModel AudioAnalyser::getDrawModel(){
     mSoundMutex.lock();
-    AudioModel tempModel = mAudioModel;
+    DrawModel tempModel = mDrawModel;
     mSoundMutex.unlock();
     return tempModel;
 }
