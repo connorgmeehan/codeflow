@@ -64,15 +64,12 @@ void AudioAnalyser::audioIn(ofSoundBuffer & buffer) {
 }
 
 DrawModel AudioAnalyser::getDrawModel(){
-    mSoundMutex.lock();
-    DrawModel tempModel = mDrawModel;
-    mSoundMutex.unlock();
-    return tempModel;
+    ofScopedLock(mSoundMutex);
+    return mDrawModel;
 }
 
 ConfigModel AudioAnalyser::getConfigModel() {
-    mSoundMutex.lock();
-    ConfigModel tempModel{ mBeatAnalyser.getProcessBeatModels(), mProcessAudioModel };
-    mSoundMutex.unlock();
-    return tempModel;
+    ofScopedLock(mSoundMutex);
+    auto beatProcessModels = mBeatAnalyser.getProcessBeatModels();
+    return ConfigModel{ beatProcessModels, mProcessAudioModel };
 }
