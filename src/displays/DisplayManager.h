@@ -4,10 +4,14 @@
 
 #include "ofMain.h"
 #include "DrawModel.h"
-#include "Channel.h"
 
 #include "AudioAnalyser.h"
+
+#include "Channel.h"
 #include "DEBUG/Debug.h"
+#include "DEBUG/Test.h"
+
+#include "BRUTAL/FFTHistoryPlane.h"
 
 class DisplayManager {
     public:

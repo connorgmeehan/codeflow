@@ -15,7 +15,6 @@ void DisplayManager::setup(){
 }
 
 void DisplayManager::update(DrawModel & model){
-    ofLog() << "model.beats.size(): " << model.beats.size();
     if(model.beats.size() >= 1 && model.beats[0].mActive) {
         for(auto & drawable : mDrawQue) {
             drawable->onKick(model.beats[0].mAmp, model.beats[0].mVel);
@@ -38,6 +37,8 @@ void DisplayManager::update(DrawModel & model){
 }
 
 void DisplayManager::draw(DrawModel & model){
+    ofBackground(0);
+    
     for(auto & drawable : mDrawQue) {
         drawable->draw(model);
     }
@@ -45,6 +46,7 @@ void DisplayManager::draw(DrawModel & model){
 
 void DisplayManager::setupChannels() {
 
-    
+    FFTHistoryPlane * historyPlane = new FFTHistoryPlane(100);
+    mDrawQue.push_back(historyPlane);
 
 }
