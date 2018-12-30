@@ -3,6 +3,7 @@
 
 #include "BeatModel.h"
 #include "AudioModel.h"
+#include "StateModel.h"
 
 struct DrawModel {
     std::vector<BeatModel> beats;

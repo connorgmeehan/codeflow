@@ -2,10 +2,14 @@
 
 #include "ofMain.h"
 #include "engine/AudioAnalyser.h"
+#include "displays/DisplayManager.h"
 
 class CodeFlowApp : public ofBaseApp{
 	private:
 		AudioAnalyser mAudioAnalyser;
+		DisplayManager mDisplayManager;
+
+		DrawModel mDrawModel;
 	public:
 		
 		void setup();
