@@ -1,14 +1,14 @@
-#ifndef __ShaderBackground_H__
-#define __ShaderBackground_H__
+#ifndef __ShaderContext_H__
+#define __ShaderContext_H__
 
 #include "ofMain.h"
 #include "Channel.h"
 #include "DrawModel.h"
 
-class ShaderBackground : public Channel {
+class ShaderContext : public Channel {
     public:
-        ShaderBackground(std::string shaderPath);
-        std::string getName(){ return std::string("ShaderBackgroundContext"); }
+        ShaderContext(std::string shaderPath);
+        std::string getName(){ return std::string("ShaderContextContext"); }
         void setup();
         void update(DrawModel & model, StateModel & state);
 
