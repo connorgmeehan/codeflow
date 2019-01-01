@@ -16,18 +16,18 @@ class Context : public Channel {
     public:
         virtual void setup() = 0;
 
-        void draw(DrawModel & model) override {
+        void draw(DrawModel & model, StateModel & state) override {
             if(mActive) {
-                end(model);
+                end(model, state);
             } else {
-                begin(model);
+                begin(model, state);
             }
 
             mActive = !mActive;
         }
 
-        virtual void begin(DrawModel & model) = 0;
-        virtual void end(DrawModel & model) = 0;
+        virtual void begin(DrawModel & model, StateModel & state) = 0;
+        virtual void end(DrawModel & model, StateModel & state) = 0;
 
     private:
         bool mActive = false;

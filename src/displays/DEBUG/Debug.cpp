@@ -4,11 +4,11 @@ void Debug::setup(){
 
 }
 
-void Debug::update(DrawModel & model){
+void Debug::update(DrawModel & model, StateModel & state){
 
 }
 
-void Debug::draw(DrawModel & model){
+void Debug::draw(DrawModel & model, StateModel & state){
     ofPolyline fftMesh;
     fftMesh.addVertex(0, 400);
     for(int i = 0; i < model.audio.mFft.size(); i++) {

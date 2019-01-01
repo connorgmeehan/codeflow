@@ -8,15 +8,15 @@ void ShaderBackground::setup(){
 
 }
 
-void ShaderBackground::update(DrawModel & model){
+void ShaderBackground::update(DrawModel & model, StateModel & state){
 
 }
 
-void ShaderBackground::begin(DrawModel & model) {
+void ShaderBackground::begin(DrawModel & model, StateModel & state) {
     mShader.begin();
 }
 
-void ShaderBackground::end(DrawModel & model) {
+void ShaderBackground::end(DrawModel & model, StateModel & state) {
     mShader.end();
 }
 

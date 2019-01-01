@@ -4,11 +4,11 @@ void Test::setup(){
 
 }
 
-void Test::update(DrawModel & model){
+void Test::update(DrawModel & model, StateModel & state){
 
 }
 
-void Test::draw(DrawModel & model){
+void Test::draw(DrawModel & model, StateModel & state){
     ofBackground(ofColor::red);
     ofSetColor(ofColor::white);
     auto & fft = model.audio.mFft;

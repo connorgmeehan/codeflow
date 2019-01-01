@@ -7,8 +7,8 @@
 class Channel {
     public:
         virtual void setup() = 0;
-        virtual void update(DrawModel & model) = 0;
-        virtual void draw(DrawModel & model) = 0;
+        virtual void update(DrawModel & model, StateModel & state) = 0;
+        virtual void draw(DrawModel & model, StateModel & state) = 0;
 
         virtual void onKick(float amp, float vel) = 0;
         virtual void onSnare(float amp, float vel) = 0;

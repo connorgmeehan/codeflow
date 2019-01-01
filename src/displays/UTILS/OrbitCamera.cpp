@@ -4,15 +4,15 @@ void OrbitCamera::setup(){
 
 }
 
-void OrbitCamera::update(DrawModel & model){
+void OrbitCamera::update(DrawModel & model, StateModel & state){
 
 }
 
-void OrbitCamera::begin(DrawModel & model){
+void OrbitCamera::begin(DrawModel & model, StateModel & state){
     cam.begin();
 }
 
-void OrbitCamera::end(DrawModel & model){
+void OrbitCamera::end(DrawModel & model, StateModel & state){
     cam.end();
 }
 

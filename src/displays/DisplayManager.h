@@ -22,15 +22,15 @@ class DisplayManager {
         DisplayManager(AudioAnalyser * pAudioAnalyser);
 
         void setup();
-        void update(DrawModel & model);
-        void draw(DrawModel & model);
+        void update(DrawModel & model, StateModel & state);
+        void draw(DrawModel & model, StateModel & state);
     private:
         void setupChannels();
         std::vector<Channel*> mDrawQue;
 
         AudioAnalyser * mpAudioAnalyser;
 
-        StateModel mSateModel;
+        StateModel mStateModel;
 };
 
 #endif;

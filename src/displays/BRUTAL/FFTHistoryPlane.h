@@ -13,8 +13,8 @@ class FFTHistoryPlane : public Channel {
 
         std::string getName(){ return std::string("FFTHistoryPlaneChannel"); }
         void setup();
-        void update(DrawModel & model);
-        void draw(DrawModel & model);
+        void update(DrawModel & model, StateModel & state);
+        void draw(DrawModel & model, StateModel & state);
 
         void onKick(float amp, float vel);
         void onSnare(float amp, float vel);

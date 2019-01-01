@@ -23,7 +23,7 @@ void FFTHistoryPlane::setup(){
 
 }
 
-void FFTHistoryPlane::update(DrawModel & model){
+void FFTHistoryPlane::update(DrawModel & model, StateModel & state){
     mFFTHistory.push_back(model.audio.mFft);
     mFFTHistory.erase(mFFTHistory.begin());
 
@@ -41,7 +41,7 @@ void FFTHistoryPlane::update(DrawModel & model){
     }
 }
 
-void FFTHistoryPlane::draw(DrawModel & model){
+void FFTHistoryPlane::draw(DrawModel & model, StateModel & state){
     ofPushMatrix();
         mFFTMesh.draw();
         ofScale(-1, 0, 0);
