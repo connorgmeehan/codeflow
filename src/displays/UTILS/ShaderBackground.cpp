@@ -14,6 +14,8 @@ void ShaderBackground::update(DrawModel & model, StateModel & state){
 
 void ShaderBackground::begin(DrawModel & model, StateModel & state) {
     mShader.begin();
+    mShader.setUniform2i("u_resolution", state.mResolution.x, state.mResolution.y);
+    mShader.setUniform1f("u_time", state.mTime);
 }
 
 void ShaderBackground::end(DrawModel & model, StateModel & state) {
