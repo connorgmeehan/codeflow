@@ -44,7 +44,7 @@ void FFTHistoryPlane::update(DrawModel & model, StateModel & state){
 void FFTHistoryPlane::draw(DrawModel & model, StateModel & state){
     ofPushMatrix();
         mFFTMesh.draw();
-        ofScale(-1, 0, 0);
+        ofScale(-1, 1, 1);
         mFFTMesh.draw();
     ofPopMatrix();
 }
