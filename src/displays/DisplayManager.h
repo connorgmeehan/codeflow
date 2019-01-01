@@ -4,12 +4,15 @@
 
 #include "ofMain.h"
 #include "DrawModel.h"
+#include "StateModel.h"
 
 #include "AudioAnalyser.h"
 
 #include "Channel.h"
 #include "DEBUG/Debug.h"
 #include "DEBUG/Test.h"
+
+#include "UTILS/OrbitCamera.h"
 
 #include "BRUTAL/FFTHistoryPlane.h"
 
@@ -26,6 +29,8 @@ class DisplayManager {
         std::vector<Channel*> mDrawQue;
 
         AudioAnalyser * mpAudioAnalyser;
+
+        StateModel mSateModel;
 };
 
 #endif;

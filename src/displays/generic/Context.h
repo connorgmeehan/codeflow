@@ -2,6 +2,7 @@
 #define __CONTEXT_H__
 
 #include "ofMain.h"
+#include "DrawModel.h"
 #include "Channel.h"
 
 /**
@@ -14,15 +15,12 @@
 class Context : public Channel {
     public:
         virtual void setup() = 0;
-        override void update(DrawModel & model) {
 
-        }
-
-        override void draw(DrawModel & model) {
+        void draw(DrawModel & model) override {
             if(mActive) {
-                end(DrawModel & model);
+                end(model);
             } else {
-                begin(DrawModel & model);
+                begin(model);
             }
 
             mActive = !mActive;
@@ -32,5 +30,7 @@ class Context : public Channel {
         virtual void end(DrawModel & model) = 0;
 
     private:
-        bool mActive;
+        bool mActive = false;
 };
+
+#endif

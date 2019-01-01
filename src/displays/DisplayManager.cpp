@@ -46,7 +46,12 @@ void DisplayManager::draw(DrawModel & model){
 
 void DisplayManager::setupChannels() {
 
+    OrbitCamera * cam = new OrbitCamera;
+    mDrawQue.push_back(cam);
+
     FFTHistoryPlane * historyPlane = new FFTHistoryPlane(100);
     mDrawQue.push_back(historyPlane);
+
+    mDrawQue.push_back(cam);
 
 }

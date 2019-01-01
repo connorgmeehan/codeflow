@@ -21,11 +21,13 @@ class FFTHistoryPlane : public Channel {
         void onHat(float amp, float vel);
 
     private:
-        circular_buffer<std::vector<float>> mFFTHistory;
+        std::vector<std::vector<float>> mFFTHistory;
 
+        int mHistoryLength;
         ofMesh mFFTMesh;
         glm::vec2 mPointDistance;
         float mMaxHeight;
+        float mYOffset;
 };
 
 #endif

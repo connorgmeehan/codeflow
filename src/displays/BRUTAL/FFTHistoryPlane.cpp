@@ -1,10 +1,11 @@
 #include "FFTHistoryPlane.h"
 
 FFTHistoryPlane::FFTHistoryPlane(int historyLength) :
-    mPointDistance(glm::vec2(5, 5)),
+    mPointDistance(glm::vec2(2, 2)),
     mMaxHeight(100.0f)
     {
-    mFFTHistory.reserve(historyLength);
+    mHistoryLength = historyLength;
+    mFFTHistory.resize(historyLength);
     for(auto & spectrum : mFFTHistory) {
         spectrum.resize(BUFFER_SIZE);
     }
@@ -14,6 +15,8 @@ FFTHistoryPlane::FFTHistoryPlane(int historyLength) :
     }
 
     mFFTMesh.setMode(OF_PRIMITIVE_POINTS);
+
+    mYOffset = BUFFER_SIZE*mPointDistance.y/2;
 }
 
 void FFTHistoryPlane::setup(){
@@ -21,18 +24,29 @@ void FFTHistoryPlane::setup(){
 }
 
 void FFTHistoryPlane::update(DrawModel & model){
-    auto & fft = model.audio.mFft;
-    mFFTHistory.push_back(fft);
+    mFFTHistory.push_back(model.audio.mFft);
+    mFFTHistory.erase(mFFTHistory.begin());
 
     for(int x = 0; x < mFFTHistory.size(); x++) {
         for(int y = 0; y < mFFTHistory[x].size(); y++) {
-            mFFTMesh.setVertex(x*mFFTHistory.size() + y, glm::vec3(x * mPointDistance.x, y*mPointDistance.y, fft[y] * mMaxHeight));
+            mFFTMesh.setVertex(
+                x*mFFTHistory.size() + y, 
+                glm::vec3(
+                    x * mPointDistance.x,
+                    -mYOffset + y * mPointDistance.y,
+                    mFFTHistory[x][y] * mMaxHeight
+                )
+            );
         }
     }
 }
 
 void FFTHistoryPlane::draw(DrawModel & model){
-    mFFTMesh.draw();
+    ofPushMatrix();
+        mFFTMesh.draw();
+        ofScale(-1, 0, 0);
+        mFFTMesh.draw();
+    ofPopMatrix();
 }
 
 void FFTHistoryPlane::onKick(float amp, float vel){
