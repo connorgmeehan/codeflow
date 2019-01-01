@@ -22,8 +22,8 @@ class DisplayManager {
         DisplayManager(AudioAnalyser * pAudioAnalyser);
 
         void setup();
-        void update(DrawModel & model, StateModel & state);
-        void draw(DrawModel & model, StateModel & state);
+        void update(DrawModel & model);
+    void draw(DrawModel & model);
     private:
         void setupChannels();
         std::vector<Channel*> mDrawQue;

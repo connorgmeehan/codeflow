@@ -2,7 +2,7 @@
 
 DisplayManager::DisplayManager(AudioAnalyser * pAudioAnalyser) :
     mpAudioAnalyser(pAudioAnalyser) {
-    mStateModel.mResolution = glm::vec2i(1024, 768);
+    mStateModel.mResolution = glm::ivec2(1024, 768);
 }
 
 void DisplayManager::setup(){
@@ -14,7 +14,7 @@ void DisplayManager::setup(){
     }
 }
 
-void DisplayManager::update(DrawModel & model, StateModel & state){
+void DisplayManager::update(DrawModel & model){
 
     mStateModel.mTime = ofGetElapsedTimef();
 
@@ -39,7 +39,7 @@ void DisplayManager::update(DrawModel & model, StateModel & state){
     }
 }
 
-void DisplayManager::draw(DrawModel & model, StateModel & state){
+void DisplayManager::draw(DrawModel & model){
     ofBackground(0);
     
     for(auto & drawable : mDrawQue) {

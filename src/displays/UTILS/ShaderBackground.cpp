@@ -1,6 +1,6 @@
 #include "ShaderBackground.h"
 
-ShaderBackround::ShaderBackground(std::string shaderPath) {
+ShaderBackground::ShaderBackground(std::string shaderPath) {
     mShader.load(shaderPath);
 }
 
