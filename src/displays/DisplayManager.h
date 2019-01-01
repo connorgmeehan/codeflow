@@ -15,6 +15,7 @@
 #include "UTILS/OrbitCamera.h"
 
 #include "BRUTAL/FFTHistoryPlane.h"
+#include "BRUTAL/PerlinOctopus.h"
 
 class DisplayManager {
     public:

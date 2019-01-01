@@ -48,13 +48,11 @@ void DisplayManager::draw(DrawModel & model){
 }
 
 void DisplayManager::setupChannels() {
-
     OrbitCamera * cam = new OrbitCamera;
     mDrawQue.push_back(cam);
 
-    FFTHistoryPlane * historyPlane = new FFTHistoryPlane(100);
-    mDrawQue.push_back(historyPlane);
+    PerlinOctopus * perlinOctopus = new PerlinOctopus(20, 5.0f, 0.1f, 400.0f, 20);
+    mDrawQue.push_back(perlinOctopus);
 
     mDrawQue.push_back(cam);
-
 }
