@@ -19,23 +19,17 @@ void Debug::draw(DrawModel & model, StateModel & state){
 
     ofNoFill();
 
-    // TODO -> figure out why this causes a segfault on AudioAnalyser::getConfigModel() -> BeatAnalyser::getProcessBeats()
-    mMainMutex.lock();
-    auto configModel = mpAudioAnalyser->getConfigModel();
-    mMainMutex.unlock();
-    auto processBeatModels = configModel.processBeats;
-
-    for(int i = 0; i < processBeatModels.size(); i++) {
+    // TODO -> figure out why this causes a segfault on AudioAnalyser::getConfigModel() -> BeatAnalyser::getProcessBeats(
+    for(int i = 0; i < model.beats.size(); i++) {
         auto & beat = model.beats[i];
-        auto & processBeat = processBeatModels[i];
         if(beat.mActive) {
             ofSetColor(ofColor::green);
         } else {
             ofSetColor(ofColor::red);
         }
-        ofDrawRectangle(processBeat.getLocation()*2-processBeat.getRadius(), 400, processBeat.getRadius()*2, -beat.mAmp*400);
-        ofDrawLine(processBeat.getLocation()*2-10, 40+beat.mVel*40, processBeat.getLocation()*2+10, 40-beat.mVel*40);
-        ofDrawBitmapString(ofToString(beat.mVel, 2), processBeat.getLocation()*2-10, 80);
+        ofDrawRectangle(400+i*40, 400, 40, -beat.mAmp*400);
+        ofDrawLine(400+i*40, 40+beat.mVel*40, 400+(i+1)*40, 40-beat.mVel*40);
+        ofDrawBitmapString(ofToString(beat.mVel, 2), 400+i*40, 80);
     }
 
     std::string debugString = "fps: " + ofToString(ofGetFrameRate(), 2) + "fps\n";

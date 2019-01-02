@@ -43,10 +43,14 @@ void FFTHistoryPlane::update(DrawModel & model, StateModel & state){
 
 void FFTHistoryPlane::draw(DrawModel & model, StateModel & state){
     ofPushMatrix();
+        ofSetColor(ofColor::white);
         mFFTMesh.draw();
         ofScale(-1, 1, 1);
         mFFTMesh.draw();
     ofPopMatrix();
+    // for(int i = 0; i < mFFTMesh.getVertices().size(); i++) {
+        // std::cout << ", v("<<i<<",["<<mFFTMesh.getVertices()[i]<<"])"<<(i%5==0 ? "\n" : "");
+    // }
 }
 
 void FFTHistoryPlane::onKick(float amp, float vel){

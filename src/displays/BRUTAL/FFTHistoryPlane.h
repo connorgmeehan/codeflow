@@ -28,6 +28,7 @@ class FFTHistoryPlane : public Channel {
         glm::vec2 mPointDistance;
         float mMaxHeight;
         float mYOffset;
+        int mSkipLength;
 };
 
 #endif

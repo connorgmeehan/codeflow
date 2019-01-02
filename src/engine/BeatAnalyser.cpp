@@ -1,7 +1,7 @@
 #include "BeatAnalyser.h"
 
 void BeatAnalyser::setup() {
-    addAnalyser(254, 5, 4);
+    addAnalyser(508, 5, 4);
     addAnalyser(20, 10, 4);
     addAnalyser(40, 15, 4);
     ProcessBeatModel::setTriggerGradient(0.5f);

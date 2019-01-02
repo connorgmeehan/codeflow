@@ -13,9 +13,12 @@
 #include "DEBUG/Test.h"
 
 #include "UTILS/OrbitCamera.h"
+#include "UTILS/ShaderContext.h"
 
 #include "BRUTAL/FFTHistoryPlane.h"
 #include "BRUTAL/PerlinOctopus.h"
+
+#include "QUANTUM/VibratingContext.h"
 
 class DisplayManager {
     public:

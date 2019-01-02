@@ -28,6 +28,10 @@ void PerlinOctopus::update(DrawModel & model, StateModel & state){
 }
 
 void PerlinOctopus::draw(DrawModel & model, StateModel & state){
+
+    ofSetColor(ofColor::white);
+    ofFill();
+
     for(int i = 0; i < mArmNumber; i++) {
         float theta = ((float) i / (float) mArmNumber) * TWO_PI;
         mArm.rollRad(theta);
