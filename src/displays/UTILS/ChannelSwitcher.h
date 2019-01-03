@@ -6,14 +6,14 @@
 #include "DrawModel.h"
 
 enum SwitcherMode {
-    CHANNEL_SWITCH_SHUFFLE,
-    CHANNEL_SWITCH_CYCLE
+    SWITCHER_SHUFFLE,
+    SWITCHER_CYCLE
 };
 
 enum SwitcherTrigger {
-    CHANNEL_SWITCH_KICK,
-    CHANNEL_SWITCH_SNARE,
-    CHANNEL_SWITCH_HAT
+    SWITCHER_KICK,
+    SWITCHER_SNARE,
+    SWITCHER_HAT
 };
 
 class ChannelSwitcher : public Channel {

@@ -43,7 +43,6 @@ void FFTHistoryPlane::update(DrawModel & model, StateModel & state){
 
 void FFTHistoryPlane::draw(DrawModel & model, StateModel & state){
     ofPushMatrix();
-        ofSetColor(ofColor::white);
         mFFTMesh.draw();
         ofScale(-1, 1, 1);
         mFFTMesh.draw();

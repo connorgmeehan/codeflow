@@ -50,21 +50,22 @@ void DisplayManager::draw(DrawModel & model){
 void DisplayManager::setupChannels() {
     OrbitCamera * cam = new OrbitCamera;
     mDrawQue.push_back(cam);
-    Vibrating * vibratingContext = new Vibrating(1000.0f, 2.0f, 0.075f);
-    mDrawQue.push_back(vibratingContext);
 
+    ContextSwitcher * cswitcher = new ContextSwitcher(SWITCHER_HAT, SWITCHER_CYCLE);
+    cswitcher
+        ->addContext(new StyleContext(ofColor(255,0,0)))
+        ->addContext(new StyleContext(ofColor(0,0,255)));
 
     FFTHistoryPlane * fftHistory = new FFTHistoryPlane(100);
-    // mDrawQue.push_back(fftHistory);
 
     PerlinOctopus * perlinOctopus = new PerlinOctopus(200, 5.0f, 0.1f, 400.0f, 20);
-    // mDrawQue.push_back(perlinOctopus);
 
-    ChannelSwitcher * switcher = new ChannelSwitcher(CHANNEL_SWITCH_HAT, CHANNEL_SWITCH_CYCLE);
+    mDrawQue.push_back(cswitcher);
+
+    ChannelSwitcher * switcher = new ChannelSwitcher(SWITCHER_HAT, SWITCHER_CYCLE);
     switcher->addChannel(fftHistory)->addChannel(perlinOctopus);
     mDrawQue.push_back(switcher);
 
-    mDrawQue.push_back(vibratingContext);
     mDrawQue.push_back(cam);
 
     Debug * debug = new Debug();

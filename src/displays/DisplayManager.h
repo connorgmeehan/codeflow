@@ -15,6 +15,8 @@
 #include "UTILS/OrbitCamera.h"
 #include "UTILS/ShaderContext.h"
 #include "UTILS/ChannelSwitcher.h"
+#include "UTILS/ContextSwitcher.h"
+#include "UTILS/StyleContext.h"
 
 #include "BRUTAL/FFTHistoryPlane.h"
 #include "BRUTAL/PerlinOctopus.h"

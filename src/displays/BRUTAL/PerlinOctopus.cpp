@@ -29,7 +29,6 @@ void PerlinOctopus::update(DrawModel & model, StateModel & state){
 
 void PerlinOctopus::draw(DrawModel & model, StateModel & state){
 
-    ofSetColor(ofColor::white);
     ofFill();
 
     for(int i = 0; i < mArmNumber; i++) {

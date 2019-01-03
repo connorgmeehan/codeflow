@@ -18,21 +18,21 @@ void ChannelSwitcher::draw(DrawModel & model, StateModel & state){
 }
 
 void ChannelSwitcher::onKick(float amp, float vel){
-    if(mTrigger = CHANNEL_SWITCH_KICK){ 
+    if(mTrigger = SWITCHER_KICK){ 
         processBeat(amp, vel);
     }
     mpChannels[mCurrentChannel]->onKick(amp,vel);
 }
 
 void ChannelSwitcher::onSnare(float amp, float vel){
-    if(mTrigger = CHANNEL_SWITCH_SNARE){ 
+    if(mTrigger = SWITCHER_SNARE){ 
         processBeat(amp, vel);
     }
     mpChannels[mCurrentChannel]->onKick(amp,vel);
 }
 
 void ChannelSwitcher::onHat(float amp, float vel){
-    if(mTrigger = CHANNEL_SWITCH_HAT){ 
+    if(mTrigger = SWITCHER_HAT){ 
         processBeat(amp, vel);
     } 
     mpChannels[mCurrentChannel]->onKick(amp,vel);
@@ -45,9 +45,9 @@ ChannelSwitcher * ChannelSwitcher::addChannel(Channel * pChannel) {
 }
 
 void ChannelSwitcher::processBeat(float amp, float vel) {
-    if (mMode == CHANNEL_SWITCH_CYCLE) {
+    if (mMode == SWITCHER_CYCLE) {
         mCurrentChannel = (mCurrentChannel+1) % mpChannels.size();
-    } else if(mMode == CHANNEL_SWITCH_SHUFFLE) {
+    } else if(mMode == SWITCHER_SHUFFLE) {
         mCurrentChannel = (int) ofRandom(0, mpChannels.size());
     }
 }
