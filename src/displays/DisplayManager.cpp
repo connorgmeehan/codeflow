@@ -55,11 +55,14 @@ void DisplayManager::setupChannels() {
 
 
     FFTHistoryPlane * fftHistory = new FFTHistoryPlane(100);
-    mDrawQue.push_back(fftHistory);
+    // mDrawQue.push_back(fftHistory);
 
-    PerlinOctopus * perlinOctopus = new PerlinOctopus(20, 5.0f, 0.1f, 400.0f, 20);
-    mDrawQue.push_back(perlinOctopus);
+    PerlinOctopus * perlinOctopus = new PerlinOctopus(200, 5.0f, 0.1f, 400.0f, 20);
+    // mDrawQue.push_back(perlinOctopus);
 
+    ChannelSwitcher * switcher = new ChannelSwitcher(CHANNEL_SWITCH_HAT, CHANNEL_SWITCH_CYCLE);
+    switcher->addChannel(fftHistory)->addChannel(perlinOctopus);
+    mDrawQue.push_back(switcher);
 
     mDrawQue.push_back(vibratingContext);
     mDrawQue.push_back(cam);
