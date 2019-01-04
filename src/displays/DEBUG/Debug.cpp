@@ -10,11 +10,11 @@ void Debug::update(DrawModel & model, StateModel & state){
 
 void Debug::draw(DrawModel & model, StateModel & state){
     ofPolyline fftMesh;
-    fftMesh.addVertex(0, 400);
+    fftMesh.addVertex(0, ofGetHeight());
     for(int i = 0; i < model.audio.mFft.size(); i++) {
-        fftMesh.addVertex(i*2.0f, 400.0f-400.0f*model.audio.mFft[i]);
+        fftMesh.addVertex(i*2.0f, ofGetHeight()-400.0f*model.audio.mFft[i]);
     }
-    fftMesh.addVertex(model.audio.mFft.size()*2.0f, 400.0f);
+    fftMesh.addVertex(model.audio.mFft.size()*2.0f, ofGetHeight());
     fftMesh.draw();
 
     ofNoFill();
@@ -36,10 +36,10 @@ void Debug::draw(DrawModel & model, StateModel & state){
     debugString += "fft bin size = " + ofToString(model.audio.mFft.size()) + "\n";
     debugString += "beat size = " + ofToString(model.beats.size()) + "\n";
     for(auto & beat : model.beats) {
-        debugString += "\tbeat(amp: " + ofToString(beat.mAmp) + ", vel " + ofToString(beat.mVel) + ")\n";
+        debugString += "\tbeat(" + ofToString((beat.mActive ? "x" : " ")) + "amp: " + ofToString(beat.mAmp) + ", vel " + ofToString(beat.mVel) + ")\n";
     }
 
-    ofDrawBitmapString(debugString, ofGetWidth() - 400, ofGetHeight()/2);
+    ofDrawBitmapString(debugString, 0, 0);
 }
 
 void Debug::onKick(float amp, float vel){
