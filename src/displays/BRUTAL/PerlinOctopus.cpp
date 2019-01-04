@@ -9,6 +9,8 @@ PerlinOctopus::PerlinOctopus(int segmentNumber, float segmentStep, float perlinS
     for(int i = 0; i < mSegmentNumber; i++) {
         mArm.getMesh().addVertex(glm::vec3(0,0,0));
     }
+
+    mModeManager = ModeManager<PerlinOctopusModes>(2, MODE_SHUFFLE, 16);
 }
 
 void PerlinOctopus::setup(){
@@ -16,14 +18,31 @@ void PerlinOctopus::setup(){
 }
 
 void PerlinOctopus::update(DrawModel & model, StateModel & state){
-    for( int i = 0; i < mSegmentNumber; i++ ) {
-        float perlinValue = (float) i * mPerlinScale;
-        
-        mArm.getMesh().setVertex(i, glm::vec3(
-            ofNoise(perlinValue) * i/mSegmentNumber * mRadius,
-            ofNoise(perlinValue + state.mTime) * i/mSegmentNumber * mRadius,
-            ofSignedNoise(100.0f + perlinValue + state.mTime) * i/mSegmentNumber * mRadius
-        ));
+    switch(mModeManager.getMode()) {
+        case PERLIN_1:
+            for( int i = 0; i < mSegmentNumber; i++ ) {
+                float perlinValue = (float) i * mPerlinScale;
+                float dist = (float)i/(float)mSegmentNumber * mRadius;
+                
+                mArm.getMesh().setVertex(i, glm::vec3(
+                    ofNoise(perlinValue) * dist,
+                    ofNoise(perlinValue + state.mTime) * dist,
+                    ofSignedNoise(100.0f + perlinValue + state.mTime) * dist
+                ));
+            }
+        break;
+        case PERLIN_2:
+            for( int i = 0; i < mSegmentNumber; i++ ) {
+                float perlinValue = (float) i * mPerlinScale;
+                float dist = (float)i/(float)mSegmentNumber * mRadius;
+                
+                mArm.getMesh().setVertex(i, glm::vec3(
+                    ofSignedNoise(perlinValue) * dist*100,
+                    ofSignedNoise(perlinValue + state.mTime) * dist,
+                    ofSignedNoise(100.0f + perlinValue + state.mTime) * dist
+                ));
+            }
+        break;
     }
 }
 
@@ -39,7 +58,7 @@ void PerlinOctopus::draw(DrawModel & model, StateModel & state){
 }
 
 void PerlinOctopus::onKick(float amp, float vel){
-
+    mModeManager.updateMode();
 }
 
 void PerlinOctopus::onSnare(float amp, float vel){

@@ -1,7 +1,7 @@
 #include "FFTHistoryPlane.h"
 
 FFTHistoryPlane::FFTHistoryPlane(int historyLength) :
-    mPointDistance(glm::vec2(2, 2)),
+    mPointDistance(glm::vec2(4, 4)),
     mMaxHeight(100.0f)
     {
     mHistoryLength = historyLength;
@@ -14,9 +14,11 @@ FFTHistoryPlane::FFTHistoryPlane(int historyLength) :
         mFFTMesh.addVertex(glm::vec3(0,0,0));
     }
 
-    mFFTMesh.setMode(OF_PRIMITIVE_POINTS);
+    mFFTMesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
 
     mYOffset = BUFFER_SIZE*mPointDistance.y/2;
+
+    mModeManager = ModeManager<FFTLineTypeMode>(6, MODE_SHUFFLE, 16);
 }
 
 void FFTHistoryPlane::setup(){
@@ -30,7 +32,7 @@ void FFTHistoryPlane::update(DrawModel & model, StateModel & state){
     for(int x = 0; x < mFFTHistory.size(); x++) {
         for(int y = 0; y < mFFTHistory[x].size(); y++) {
             mFFTMesh.setVertex(
-                x*mFFTHistory.size() + y, 
+                y + x*mFFTHistory[x].size(), 
                 glm::vec3(
                     x * mPointDistance.x,
                     -mYOffset + y * mPointDistance.y,
@@ -42,18 +44,40 @@ void FFTHistoryPlane::update(DrawModel & model, StateModel & state){
 }
 
 void FFTHistoryPlane::draw(DrawModel & model, StateModel & state){
+
+    switch(mModeManager.getMode()) {
+        case FFT_HISTORY_LINE_LOOP:
+            mFFTMesh.setMode(OF_PRIMITIVE_LINE_LOOP);
+        break;
+        case FFT_HISTORY_LINE_STRIP:
+            mFFTMesh.setMode(OF_PRIMITIVE_LINE_STRIP);
+        break;
+        case FFT_HISTORY_LINE_STRIP_ADJACENCY:
+            mFFTMesh.setMode(OF_PRIMITIVE_LINE_STRIP_ADJACENCY);
+        break;
+        case FFT_HISTORY_LINES:
+            mFFTMesh.setMode(OF_PRIMITIVE_LINES);
+        break;
+        case FFT_HISTORY_PATCHES:
+            mFFTMesh.setMode(OF_PRIMITIVE_PATCHES);
+        break;
+        case FFT_HISTORY_POINTS:
+            mFFTMesh.setMode(OF_PRIMITIVE_POINTS);
+        break;
+    }
+
     ofPushMatrix();
         mFFTMesh.draw();
         ofScale(-1, 1, 1);
         mFFTMesh.draw();
     ofPopMatrix();
     // for(int i = 0; i < mFFTMesh.getVertices().size(); i++) {
-        // std::cout << ", v("<<i<<",["<<mFFTMesh.getVertices()[i]<<"])"<<(i%5==0 ? "\n" : "");
+    //     std::cout << ", v("<<i<<",["<<mFFTMesh.getVertices()[i]<<"])"<<(i%5==0 ? "\n" : "");
     // }
 }
 
 void FFTHistoryPlane::onKick(float amp, float vel){
-
+    mModeManager.updateMode();
 }
 
 void FFTHistoryPlane::onSnare(float amp, float vel){

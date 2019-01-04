@@ -5,7 +5,16 @@
 #include "Channel.h"
 #include "DrawModel.h"
 
-#include "circular.h"
+#include "ModeManager.h"
+
+enum FFTLineTypeMode {
+    FFT_HISTORY_LINE_LOOP,
+    FFT_HISTORY_LINE_STRIP,
+    FFT_HISTORY_LINE_STRIP_ADJACENCY,
+    FFT_HISTORY_LINES,
+    FFT_HISTORY_PATCHES,
+    FFT_HISTORY_POINTS
+};
 
 class FFTHistoryPlane : public Channel {
     public:
@@ -29,6 +38,8 @@ class FFTHistoryPlane : public Channel {
         float mMaxHeight;
         float mYOffset;
         int mSkipLength;
+
+        ModeManager<FFTLineTypeMode> mModeManager;
 };
 
 #endif

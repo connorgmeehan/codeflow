@@ -4,6 +4,12 @@
 #include "ofMain.h"
 #include "Channel.h"
 #include "DrawModel.h"
+#include "ModeManager.h"
+
+enum PerlinOctopusModes {
+    PERLIN_1,
+    PERLIN_2
+};
 
 class PerlinOctopus : public Channel {
     public:
@@ -25,6 +31,7 @@ class PerlinOctopus : public Channel {
 
         std::vector<of3dPrimitive> mArms;
 
+        ModeManager<PerlinOctopusModes> mModeManager;
 };
 
 #endif
