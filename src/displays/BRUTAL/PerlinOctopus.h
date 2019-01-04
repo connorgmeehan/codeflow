@@ -13,7 +13,7 @@ enum PerlinOctopusModes {
 
 class PerlinOctopus : public Channel {
     public:
-        PerlinOctopus(int segmentNumber, float segmentStep, float perlinScale, float radius, int armNumber);
+        PerlinOctopus(float reactivity, float segmentStep, float perlinScale, float radius, int armNumber);
         std::string getName(){ return std::string("PerlinOctopusChannel"); }
         void setup();
         void update(DrawModel & model, StateModel & state);
@@ -26,8 +26,8 @@ class PerlinOctopus : public Channel {
         // ofMesh mArmMesh;
         of3dPrimitive mArm;
 
-        int mSegmentNumber, mArmNumber;
-        float mSegmentStep, mPerlinScale, mRadius;
+        int mArmNumber;
+        float mReactivity, mSegmentStep, mPerlinScale, mRadius;
 
         std::vector<of3dPrimitive> mArms;
 

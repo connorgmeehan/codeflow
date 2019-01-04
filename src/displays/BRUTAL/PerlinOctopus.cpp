@@ -1,12 +1,12 @@
 #include "PerlinOctopus.h"
-PerlinOctopus::PerlinOctopus(int segmentNumber, float segmentStep, float perlinScale, float radius, int armNumber) {
-    mSegmentNumber = segmentNumber;
+PerlinOctopus::PerlinOctopus(float reactivity, float segmentStep, float perlinScale, float radius, int armNumber) {
+    mReactivity = reactivity;
     mSegmentStep = segmentStep;
     mPerlinScale = perlinScale;
     mRadius = radius;
     mArmNumber = armNumber;
 
-    for(int i = 0; i < mSegmentNumber; i++) {
+    for(int i = 0; i < BUFFER_SIZE; i++) {
         mArm.getMesh().addVertex(glm::vec3(0,0,0));
     }
 
@@ -18,27 +18,30 @@ void PerlinOctopus::setup(){
 }
 
 void PerlinOctopus::update(DrawModel & model, StateModel & state){
+    auto & fft = model.audio.mFft;
+
     switch(mModeManager.getMode()) {
         case PERLIN_1:
-            for( int i = 0; i < mSegmentNumber; i++ ) {
+            for( int i = 0; i < BUFFER_SIZE; i++ ) {
                 float perlinValue = (float) i * mPerlinScale;
-                float dist = (float)i/(float)mSegmentNumber * mRadius;
-                
+                float dist = (float)i/(float)BUFFER_SIZE * mRadius;
+              
                 mArm.getMesh().setVertex(i, glm::vec3(
-                    ofNoise(perlinValue) * dist,
-                    ofNoise(perlinValue + state.mTime) * dist,
-                    ofSignedNoise(100.0f + perlinValue + state.mTime) * dist
-                ));
+                    ofSignedNoise(perlinValue + state.mTime*mPerlinScale + fft[i]*mReactivity),
+                    ofSignedNoise(perlinValue - state.mTime*mPerlinScale + fft[i]*mReactivity),
+                    ofSignedNoise(perlinValue + state.mTime*mPerlinScale + fft[i]*mReactivity + 100.0f)
+                ) );
             }
         break;
+
         case PERLIN_2:
-            for( int i = 0; i < mSegmentNumber; i++ ) {
+            for( int i = 0; i < BUFFER_SIZE; i++ ) {
                 float perlinValue = (float) i * mPerlinScale;
-                float dist = (float)i/(float)mSegmentNumber * mRadius;
+                float dist = (float)i/(float)BUFFER_SIZE * mRadius;
                 
                 mArm.getMesh().setVertex(i, glm::vec3(
-                    ofNoise(perlinValue - state.mTime) * dist,
-                    ofNoise(perlinValue + state.mTime) * dist,
+                    ofSignedNoise(perlinValue - state.mTime) * dist,
+                    ofSignedNoise(perlinValue + state.mTime) * dist,
                     ofSignedNoise(100.0f + perlinValue + state.mTime) * dist
                 ));
             }
