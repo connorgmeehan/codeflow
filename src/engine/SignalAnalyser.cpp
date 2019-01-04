@@ -2,6 +2,7 @@
 
 SignalAnalyser::SignalAnalyser() : ofxFFTBase() {
     soundStream = NULL;
+    setMirrorData(true);
 }
 
 SignalAnalyser::~SignalAnalyser() {
