@@ -23,7 +23,7 @@ void ProcessBeatModel::setGradientScale(float gradientScale) {
     mGradientScale = gradientScale;
 }
 
-BeatModel ProcessBeatModel::audioIn(std::vector<float> & fft) {
+BeatModel ProcessBeatModel::audioIn(const std::vector<float> & fft) {
     // update history
     int lowerBounds = ofClamp(mLocation - mRadius, 0, fft.size());
     int upperBounds = ofClamp(mLocation + mRadius, 0, fft.size());

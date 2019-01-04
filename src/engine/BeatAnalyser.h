@@ -9,7 +9,7 @@ class BeatAnalyser {
     public:
         void setup();
 
-        void audioIn(std::vector<float> & fft);
+        void audioIn(const std::vector<float> & fft);
         std::vector<BeatModel> getBeats();
 
         std::vector<ProcessBeatModel> getProcessBeatModels();

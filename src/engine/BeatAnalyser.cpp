@@ -8,7 +8,8 @@ void BeatAnalyser::setup() {
     ProcessBeatModel::setGradientScale(100.0f);
 }
 
-void BeatAnalyser::audioIn(std::vector<float> & fft) {
+void BeatAnalyser::audioIn(const std::vector<float> & fft) {
+    // ofLog() << "BeatAnalyser::audioIn()";
     for(int i = 0; i < mBeatProcessors.size(); i++) {
         mBeatModels[i] = mBeatProcessors[i].audioIn(fft);
     }
