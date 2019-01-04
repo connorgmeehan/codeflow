@@ -55,7 +55,7 @@ BeatModel ProcessBeatModel::audioIn(const std::vector<float> & fft) {
     gradient = (gradient*mGradientScale) / mHistory.size();
     
     mTriggerGradient = glm::max(mTriggerGradient, gradient);
-    mTriggerGradient -= 0.01f;
+    mTriggerGradient -= 0.008f;
 
     // Calculate state
 
