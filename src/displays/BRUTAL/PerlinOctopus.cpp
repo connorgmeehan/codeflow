@@ -21,31 +21,33 @@ void PerlinOctopus::update(DrawModel & model, StateModel & state){
     auto & fft = model.audio.mFft;
 
     switch(mModeManager.getMode()) {
-        case PERLIN_1:
+        case PERLIN_1: {
+            float perlinOffset = state.mTime*mPerlinScale;
             for( int i = 0; i < BUFFER_SIZE; i++ ) {
                 float perlinValue = (float) i * mPerlinScale;
                 float dist = (float)i/(float)BUFFER_SIZE * mRadius;
               
                 mArm.getMesh().setVertex(i, glm::vec3(
-                    ofSignedNoise(perlinValue + state.mTime*mPerlinScale + fft[i]*mReactivity),
-                    ofSignedNoise(perlinValue - state.mTime*mPerlinScale + fft[i]*mReactivity),
-                    ofSignedNoise(perlinValue + state.mTime*mPerlinScale + fft[i]*mReactivity + 100.0f)
+                    ofSignedNoise(perlinValue + perlinOffset + fft[i]*mReactivity) * dist,
+                    ofSignedNoise(perlinValue - perlinOffset + fft[i]*mReactivity) * dist,
+                    ofSignedNoise(perlinValue + perlinOffset + fft[i]*mReactivity + 100.0f) * dist
                 ) );
             }
-        break;
+        } break;
 
-        case PERLIN_2:
+        case PERLIN_2: {
+            float perlinOffset = state.mTime*mPerlinScale;
             for( int i = 0; i < BUFFER_SIZE; i++ ) {
                 float perlinValue = (float) i * mPerlinScale;
-                float dist = (float)i/(float)BUFFER_SIZE * mRadius;
+                float dist = ofSignedNoise(perlinValue + perlinOffset) * (float) i / (float) BUFFER_SIZE * mRadius;
                 
                 mArm.getMesh().setVertex(i, glm::vec3(
-                    ofSignedNoise(perlinValue - state.mTime) * dist,
-                    ofSignedNoise(perlinValue + state.mTime) * dist,
-                    ofSignedNoise(100.0f + perlinValue + state.mTime) * dist
+                    ofSignedNoise(perlinValue - perlinOffset + fft[i]*mReactivity) * dist,
+                    ofSignedNoise(perlinValue + perlinOffset + fft[i]*mReactivity) * dist,
+                    ofSignedNoise(100.0f + perlinValue + perlinOffset + fft[i]*mReactivity) * dist
                 ));
             }
-        break;
+        } break;
     }
 }
 
