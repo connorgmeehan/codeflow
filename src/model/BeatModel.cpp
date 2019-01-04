@@ -8,6 +8,8 @@ BeatModel::BeatModel(bool active, float amp, float vel) :
 
 float ProcessBeatModel::mTriggerGradient;
 float ProcessBeatModel::mGradientScale;
+int ProcessBeatModel::mTickCount = 0;
+int ProcessBeatModel::mTickDelay = 10;
 
 ProcessBeatModel::ProcessBeatModel(int location, int radius, int historySize) :
     mLocation(location),
@@ -21,6 +23,10 @@ void ProcessBeatModel::setTriggerGradient(float triggerGradient) {
 
 void ProcessBeatModel::setGradientScale(float gradientScale) {
     mGradientScale = gradientScale;
+}
+
+void ProcessBeatModel::incrementTickCount() {
+    mTickCount++;
 }
 
 BeatModel ProcessBeatModel::audioIn(const std::vector<float> & fft) {
@@ -38,6 +44,15 @@ BeatModel ProcessBeatModel::audioIn(const std::vector<float> & fft) {
     }
     gradient = (gradient*mGradientScale) / mHistory.size();
 
+    // Calculate state
+    bool active = false;
+    if(mLastTick + mTickDelay > mTickCount) {
+        active = (gradient >= mTriggerGradient);
+        if(active) {
+            mLastTick = mTickCount;
+        }
+    }
+
     // generate BeatModel for returning
-    return BeatModel(gradient >= mTriggerGradient, avg, gradient);
+    return BeatModel(active , avg, gradient);
 }

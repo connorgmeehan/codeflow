@@ -1,7 +1,7 @@
 #include "BeatAnalyser.h"
 
 void BeatAnalyser::setup() {
-    addAnalyser(508, 5, 4);
+    addAnalyser(251, 5, 4);
     addAnalyser(20, 10, 4);
     addAnalyser(40, 15, 4);
     ProcessBeatModel::setTriggerGradient(0.5f);
@@ -13,6 +13,8 @@ void BeatAnalyser::audioIn(const std::vector<float> & fft) {
     for(int i = 0; i < mBeatProcessors.size(); i++) {
         mBeatModels[i] = mBeatProcessors[i].audioIn(fft);
     }
+
+    ProcessBeatModel::incrementTickCount();
 }
 
 std::vector<BeatModel> BeatAnalyser::getBeats() {

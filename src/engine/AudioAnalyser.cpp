@@ -5,8 +5,9 @@ void AudioAnalyser::setup() {
     mBeatAnalyser.setup();
 
     mProcessAudioModel = ProcessAudioModel(mSignalAnalyser.getBufferSize());
-    mSignalAnalyser.setCallback(std::bind(&BeatAnalyser::audioIn, &mBeatAnalyser, std::placeholders::_1));    
 
+    mSignalAnalyser.setBufferSize(BUFFER_SIZE);
+    mSignalAnalyser.setCallback(std::bind(&BeatAnalyser::audioIn, &mBeatAnalyser, std::placeholders::_1));    
     mSignalAnalyser.setup("default");
 }
 

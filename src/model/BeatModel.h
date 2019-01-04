@@ -14,6 +14,10 @@ class ProcessBeatModel {
     private:
         static float mTriggerGradient;
         static float mGradientScale;
+        static int mTickCount;
+        static int mTickDelay;
+
+        int mLastTick;
         int mLocation;
         int mRadius;
         std::vector<float> mHistory;
@@ -21,6 +25,7 @@ class ProcessBeatModel {
         ProcessBeatModel(int location, int radius, int historySize);
         static void setTriggerGradient(float triggerGradient);
         static void setGradientScale(float gradientScale);
+        static void incrementTickCount();
         BeatModel audioIn(const std::vector<float> & fft);
 
         float getTriggerGradient() { return mTriggerGradient; }

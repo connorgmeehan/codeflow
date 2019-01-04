@@ -3,6 +3,9 @@
 SignalAnalyser::SignalAnalyser() : ofxFFTBase() {
     soundStream = NULL;
     setMirrorData(true);
+    setThreshold(0.1f);
+    setPeakDecay(0.75f);
+    setMaxDecay(0.995f);
 }
 
 SignalAnalyser::~SignalAnalyser() {
