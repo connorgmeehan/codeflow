@@ -18,7 +18,7 @@ FFTHistoryPlane::FFTHistoryPlane(int historyLength) :
 
     mYOffset = BUFFER_SIZE*mPointDistance.y/2;
 
-    mModeManager = ModeManager<FFTLineTypeMode>(6, MODE_SHUFFLE, 16);
+    mModeManager = ModeManager<FFTLineTypeMode>(2, MODE_SHUFFLE, 16);
 }
 
 void FFTHistoryPlane::setup(){
@@ -46,18 +46,6 @@ void FFTHistoryPlane::update(DrawModel & model, StateModel & state){
 void FFTHistoryPlane::draw(DrawModel & model, StateModel & state){
 
     switch(mModeManager.getMode()) {
-        case FFT_HISTORY_LINE_LOOP:
-            mFFTMesh.setMode(OF_PRIMITIVE_LINE_LOOP);
-        break;
-        case FFT_HISTORY_LINE_STRIP:
-            mFFTMesh.setMode(OF_PRIMITIVE_LINE_STRIP);
-        break;
-        case FFT_HISTORY_LINE_STRIP_ADJACENCY:
-            mFFTMesh.setMode(OF_PRIMITIVE_LINE_STRIP_ADJACENCY);
-        break;
-        case FFT_HISTORY_LINES:
-            mFFTMesh.setMode(OF_PRIMITIVE_LINES);
-        break;
         case FFT_HISTORY_PATCHES:
             mFFTMesh.setMode(OF_PRIMITIVE_PATCHES);
         break;
