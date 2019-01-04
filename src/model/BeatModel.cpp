@@ -30,6 +30,15 @@ void ProcessBeatModel::incrementTickCount() {
     mTickCount++;
 }
 
+void ProcessBeatModel::setBeatState(BeatState state) {
+    mState = state;
+    mLastTick = mTickCount;
+}
+
+BeatState ProcessBeatModel::getBeatState() {
+    return mState;
+}
+
 BeatModel ProcessBeatModel::audioIn(const std::vector<float> & fft) {
     // update history
     int lowerBounds = ofClamp(mLocation - mRadius, 0, fft.size());
@@ -44,6 +53,9 @@ BeatModel ProcessBeatModel::audioIn(const std::vector<float> & fft) {
         gradient += mHistory[i+1] - mHistory[i];
     }
     gradient = (gradient*mGradientScale) / mHistory.size();
+    
+    mTriggerGradient = glm::max(mTriggerGradient, gradient);
+    mTriggerGradient -= 0.01f;
 
     // Calculate state
 

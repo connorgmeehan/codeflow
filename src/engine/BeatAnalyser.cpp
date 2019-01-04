@@ -1,10 +1,10 @@
 #include "BeatAnalyser.h"
 
 void BeatAnalyser::setup() {
-    addAnalyser(251, 5, 4);
-    addAnalyser(20, 10, 4);
-    addAnalyser(40, 15, 4);
-    ProcessBeatModel::setTriggerGradient(0.5f);
+    addAnalyser(251, 5, 6);
+    addAnalyser(20, 10, 6);
+    addAnalyser(40, 15, 6);
+    ProcessBeatModel::setTriggerGradient(0.6f);
     ProcessBeatModel::setGradientScale(100.0f);
 }
 
@@ -19,7 +19,9 @@ void BeatAnalyser::audioIn(const std::vector<float> & fft) {
 std::vector<BeatModel> BeatAnalyser::getBeats() {
 
     for(auto & beatProcessor : mBeatProcessors) {
-        beatProcessor.setBeatState(BEAT_COOLDOWN);
+        if(beatProcessor.getBeatState() == BEAT_ON) {
+            beatProcessor.setBeatState(BEAT_COOLDOWN);
+        }
     }
 
     return mBeatModels;

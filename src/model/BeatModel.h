@@ -39,7 +39,8 @@ class ProcessBeatModel {
         int getLocation() { return mLocation; }
         int getRadius() { return mRadius; }
         std::vector<float> & getHistory() { return mHistory; }
-        void setBeatState(BeatState state){ mState = state; }
+        void setBeatState(BeatState state);
+        BeatState getBeatState();
 };
 
 #endif
