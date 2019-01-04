@@ -1,14 +1,14 @@
-#ifndef __Vibrating_H__
-#define __Vibrating_H__
+#ifndef __VibratingContext_H__
+#define __VibratingContext_H__
 
 #include "ofMain.h"
 #include "Context.h"
 #include "DrawModel.h"
 
-class Vibrating : public Context {
+class VibratingContext : public Context {
     public:
-        Vibrating() {}
-        Vibrating(float maxDistance, float power, float interval);
+        VibratingContext() {}
+        VibratingContext(float maxDistance, float power, float interval);
         std::string getName(){ return std::string("VibratingContext"); }
         void setup();
         void update(DrawModel & model, StateModel & state);
@@ -20,7 +20,6 @@ class Vibrating : public Context {
         void onHat(float amp, float vel);
     private:
         float mMaxDistance, mPowerMultiplier, mCurrentDirection;
-        float mInterval, mLastChange;
         float mSigConstant;
         float mSmoothedAmp;
 };

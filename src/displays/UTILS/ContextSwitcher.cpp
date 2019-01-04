@@ -54,5 +54,4 @@ void ContextSwitcher::processBeat(float amp, float vel) {
     } else if(mMode == SWITCHER_SHUFFLE) {
         mCurrentContext = (int) ofRandom(0, mpContexts.size());
     }
-    // ofLog() << "ContextSwitcher::processBeat() switching context to `i = "<<mCurrentContext<<"`"; 
 }
