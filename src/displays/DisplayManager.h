@@ -27,6 +27,7 @@ class DisplayManager {
     public:
         DisplayManager(){ }
         DisplayManager(AudioAnalyser * pAudioAnalyser);
+        ~DisplayManager();
 
         void setup();
         void update(DrawModel & model);
