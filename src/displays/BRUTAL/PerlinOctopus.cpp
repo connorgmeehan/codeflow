@@ -37,8 +37,8 @@ void PerlinOctopus::update(DrawModel & model, StateModel & state){
                 float dist = (float)i/(float)mSegmentNumber * mRadius;
                 
                 mArm.getMesh().setVertex(i, glm::vec3(
-                    ofSignedNoise(perlinValue) * dist*100,
-                    ofSignedNoise(perlinValue + state.mTime) * dist,
+                    ofNoise(perlinValue - state.mTime) * dist,
+                    ofNoise(perlinValue + state.mTime) * dist,
                     ofSignedNoise(100.0f + perlinValue + state.mTime) * dist
                 ));
             }
