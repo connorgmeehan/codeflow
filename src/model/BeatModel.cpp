@@ -9,12 +9,13 @@ BeatModel::BeatModel(bool active, float amp, float vel) :
 float ProcessBeatModel::mTriggerGradient;
 float ProcessBeatModel::mGradientScale;
 int ProcessBeatModel::mTickCount = 0;
-int ProcessBeatModel::mTickDelay = 10;
+int ProcessBeatModel::mTickDelay = 20;
 
 ProcessBeatModel::ProcessBeatModel(int location, int radius, int historySize) :
     mLocation(location),
     mRadius(radius) {
     mHistory.resize(historySize, 0.0f);
+    mLastTick = 0;
 }
 
 void ProcessBeatModel::setTriggerGradient(float triggerGradient) {
@@ -45,11 +46,20 @@ BeatModel ProcessBeatModel::audioIn(const std::vector<float> & fft) {
     gradient = (gradient*mGradientScale) / mHistory.size();
 
     // Calculate state
+
     bool active = false;
-    if(mLastTick + mTickDelay > mTickCount) {
-        active = (gradient >= mTriggerGradient);
-        if(active) {
-            mLastTick = mTickCount;
+
+    if(mState == BEAT_OFF) {
+        if(gradient >= mTriggerGradient) {
+            mState = BEAT_ON;
+            active = true;
+        }
+    } else if(mState == BEAT_ON) {
+        active = true;
+        // AudioAnalyser will switch this to BEAT_COOLDOWN when it's read
+    } else {
+        if(mLastTick + mTickDelay < mTickCount) {
+            mState = BEAT_OFF;
         }
     }
 

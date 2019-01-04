@@ -10,6 +10,12 @@ struct BeatModel {
     BeatModel(bool active, float amp, float vel);
 };
 
+enum BeatState {
+    BEAT_OFF,
+    BEAT_ON,
+    BEAT_COOLDOWN
+};
+
 class ProcessBeatModel {
     private:
         static float mTriggerGradient;
@@ -17,6 +23,7 @@ class ProcessBeatModel {
         static int mTickCount;
         static int mTickDelay;
 
+        BeatState mState;
         int mLastTick;
         int mLocation;
         int mRadius;
@@ -32,6 +39,7 @@ class ProcessBeatModel {
         int getLocation() { return mLocation; }
         int getRadius() { return mRadius; }
         std::vector<float> & getHistory() { return mHistory; }
+        void setBeatState(BeatState state){ mState = state; }
 };
 
 #endif

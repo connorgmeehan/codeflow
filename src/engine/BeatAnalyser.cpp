@@ -9,7 +9,6 @@ void BeatAnalyser::setup() {
 }
 
 void BeatAnalyser::audioIn(const std::vector<float> & fft) {
-    // ofLog() << "BeatAnalyser::audioIn()";
     for(int i = 0; i < mBeatProcessors.size(); i++) {
         mBeatModels[i] = mBeatProcessors[i].audioIn(fft);
     }
@@ -18,6 +17,11 @@ void BeatAnalyser::audioIn(const std::vector<float> & fft) {
 }
 
 std::vector<BeatModel> BeatAnalyser::getBeats() {
+
+    for(auto & beatProcessor : mBeatProcessors) {
+        beatProcessor.setBeatState(BEAT_COOLDOWN);
+    }
+
     return mBeatModels;
 }
 

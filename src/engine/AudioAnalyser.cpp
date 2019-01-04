@@ -14,6 +14,8 @@ void AudioAnalyser::setup() {
 DrawModel & AudioAnalyser::getDrawModel() {
     mDrawModel.audio = mSignalAnalyser.getAudioModel();
     mDrawModel.beats = mBeatAnalyser.getBeats();
+
+    
     return mDrawModel;
 }
 
