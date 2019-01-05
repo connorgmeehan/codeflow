@@ -8,6 +8,8 @@
 
 #include "AudioAnalyser.h"
 
+#include "ofxTimeMeasurements.h"
+
 #include "Channel.h"
 #include "DEBUG/Debug.h"
 #include "DEBUG/Test.h"
@@ -20,6 +22,7 @@
 
 #include "BRUTAL/FFTHistoryPlane.h"
 #include "BRUTAL/PerlinOctopus.h"
+#include "BRUTAL/StepCamera.h"
 
 #include "QUANTUM/VibratingContext.h"
 

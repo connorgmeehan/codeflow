@@ -2,19 +2,24 @@
 
 DisplayManager::DisplayManager(AudioAnalyser * pAudioAnalyser) :
     mpAudioAnalyser(pAudioAnalyser) {
+    TIME_SAMPLE_SET_FRAMERATE(60.0f); 
+
     mStateModel.mResolution = glm::ivec2(1024, 768);
 }
 
 void DisplayManager::setup(){
-
+    TS_START("setup");
     setupChannels();
 
     for(auto & drawable : mDrawQue) {
         drawable->setup();
     }
+    TS_STOP("setup");
 }
 
 void DisplayManager::update(DrawModel & model){
+
+    TS_START("update");
 
     mStateModel.mTime = ofGetElapsedTimef();
 
@@ -37,18 +42,22 @@ void DisplayManager::update(DrawModel & model){
     for(auto & drawable : mDrawQue) {
         drawable->update(model, mStateModel);
     }
+
+    TS_STOP("update");
 }
 
 void DisplayManager::draw(DrawModel & model){
+    TS_START("draw");
     ofBackground(0);
     
     for(auto & drawable : mDrawQue) {
         drawable->draw(model, mStateModel);
     }
+    TS_STOP("draw");
 }
 
 void DisplayManager::setupChannels() {
-    OrbitCamera * cam = new OrbitCamera;
+    StepCamera * cam = new StepCamera(0.001f, 0.005f, 400.0f, 1000.0f);
     mDrawQue.push_back(cam);
 
     StyleContext * white = new StyleContext(ofColor::white);
@@ -59,11 +68,13 @@ void DisplayManager::setupChannels() {
 
     FFTHistoryPlane * fftHistory = new FFTHistoryPlane(200);
 
-    // PerlinOctopus * perlinOctopus = new PerlinOctopus(200, 5.0f, 0.1f, 400.0f, 20);
+    PerlinOctopus * perlinOctopus = new PerlinOctopus(0.5f, 5.0f, 0.1f, 800.0f, 10);
+    PerlinOctopus * shortPerlin = new PerlinOctopus(0.5f, 10.0f, 0.1f, 800.0f, 4);
 
-    // ChannelSwitcher * switcher = new ChannelSwitcher(SWITCHER_HAT, SWITCHER_CYCLE);
-    // switcher->addChannel(fftHistory)->addChannel(perlinOctopus);
+    ChannelSwitcher * switcher = new ChannelSwitcher(SWITCHER_HAT, SWITCHER_CYCLE);
+    switcher->addChannel(perlinOctopus)->addChannel(shortPerlin);
     mDrawQue.push_back(fftHistory);
+    mDrawQue.push_back(switcher);
 
     mDrawQue.push_back(vibratingContext);
 
