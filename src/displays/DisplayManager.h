@@ -19,6 +19,10 @@
 #include "UTILS/ChannelSwitcher.h"
 #include "UTILS/ContextSwitcher.h"
 #include "UTILS/StyleContext.h"
+#include "UTILS/TextureDrawer.h"
+#include "UTILS/FboContext.h"
+#include "UTILS/TextureShader.h"
+#include "UTILS/ShaderBackground.h"
 
 #include "BRUTAL/FFTHistoryPlane.h"
 #include "BRUTAL/PerlinOctopus.h"

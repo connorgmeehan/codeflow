@@ -4,7 +4,7 @@ DisplayManager::DisplayManager(AudioAnalyser * pAudioAnalyser) :
     mpAudioAnalyser(pAudioAnalyser) {
     TIME_SAMPLE_SET_FRAMERATE(60.0f); 
 
-    mStateModel.mResolution = glm::ivec2(1024, 768);
+    mStateModel.mResolution = glm::vec2(1024, 768);
 }
 
 void DisplayManager::setup(){
@@ -58,29 +58,46 @@ void DisplayManager::draw(DrawModel & model){
 
 void DisplayManager::setupChannels() {
     StepCamera * cam = new StepCamera(0.001f, 0.005f, 400.0f, 1000.0f);
-    mDrawQue.push_back(cam);
 
-    StyleContext * white = new StyleContext(ofColor::white);
-    mDrawQue.push_back(white);
 
-    VibratingContext * vibratingContext = new VibratingContext(200, 1.0, 0.05);
-    mDrawQue.push_back(vibratingContext);
+    // Background
+    FboContext * fboContext = new FboContext();
+    mDrawQue.push_back(fboContext);
+        
+        ChannelSwitcher * backgroundSwitcher = new ChannelSwitcher(SWITCHER_KICK, MODE_SHUFFLE, 128);
+        backgroundSwitcher
+            ->addChannel(new ShaderBackground("shaders/quantum/refract_1"))
+            ->addChannel(new ShaderBackground("shaders/quantum/refract_2"))
+            ->addChannel(new ShaderBackground("shaders/quantum/refract_3"))
+            ->addChannel(new ShaderBackground("shaders/quantum/refract_4"))
+            ->addChannel(new ShaderBackground("shaders/quantum/refract_5"));
+        mDrawQue.push_back(backgroundSwitcher);
 
-    FFTHistoryPlane * fftHistory = new FFTHistoryPlane(200);
+    mDrawQue.push_back(fboContext);
+    mDrawQue.push_back(new TextureDrawer(fboContext));
 
-    PerlinOctopus * perlinOctopus = new PerlinOctopus(0.5f, 5.0f, 0.1f, 800.0f, 10);
-    PerlinOctopus * shortPerlin = new PerlinOctopus(0.5f, 10.0f, 0.1f, 800.0f, 4);
+    // Foreground
+    TextureShader * inverseShader = new TextureShader("shaders/utils/inverse", fboContext);
+    mDrawQue.push_back(inverseShader);
+        VibratingContext * vibratingContext = new VibratingContext(200, 1.0, 0.05);
+        mDrawQue.push_back(vibratingContext);
+            mDrawQue.push_back(cam);
 
-    ChannelSwitcher * switcher = new ChannelSwitcher(SWITCHER_HAT, SWITCHER_CYCLE);
-    switcher->addChannel(perlinOctopus)->addChannel(shortPerlin);
-    mDrawQue.push_back(fftHistory);
-    mDrawQue.push_back(switcher);
+                FFTHistoryPlane * fftHistory = new FFTHistoryPlane(200);
 
-    mDrawQue.push_back(vibratingContext);
+                PerlinOctopus * perlinOctopus = new PerlinOctopus(0.5f, 5.0f, 0.1f, 800.0f, 10);
+                PerlinOctopus * shortPerlin = new PerlinOctopus(0.5f, 10.0f, 0.1f, 800.0f, 4);
 
-    mDrawQue.push_back(white);
+                ChannelSwitcher * switcher = new ChannelSwitcher(SWITCHER_HAT, MODE_CYCLE);
+                switcher->addChannel(perlinOctopus)->addChannel(shortPerlin)->addChannel(fftHistory);
+                mDrawQue.push_back(switcher);
+                mDrawQue.push_back(fftHistory);
+                    
+            mDrawQue.push_back(cam);
+        mDrawQue.push_back(vibratingContext);
+    mDrawQue.push_back(inverseShader);
 
-    mDrawQue.push_back(cam);
+    
 
     // Debug * debug = new Debug();
     // mDrawQue.push_back(debug);

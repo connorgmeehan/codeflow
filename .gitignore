@@ -1,5 +1,7 @@
 bin/libs/
 bin/gammaflow_epsilon
-bin/
+bin/codeflow
+bin/codeflow_debug
+bin/libfmodex.so
 obj/
 .vscode/
