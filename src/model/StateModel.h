@@ -5,7 +5,7 @@
 
 struct StateModel {
     float mTime;
-    glm::ivec2 mResolution;
+    glm::vec2 mResolution;
 };
 
 #endif
