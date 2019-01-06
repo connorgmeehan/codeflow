@@ -5,10 +5,7 @@
 #include "Channel.h"
 #include "DrawModel.h"
 
-enum SwitcherMode {
-    SWITCHER_SHUFFLE,
-    SWITCHER_CYCLE
-};
+#include "ModeManager.h"
 
 enum SwitcherTrigger {
     SWITCHER_KICK,
@@ -18,7 +15,7 @@ enum SwitcherTrigger {
 
 class ChannelSwitcher : public Channel {
     public:
-        ChannelSwitcher(SwitcherTrigger trigger, SwitcherMode mode);
+        ChannelSwitcher(SwitcherTrigger trigger, ModeManagerType mode, int interval = 0);
         std::string getName(){ return std::string("ChannelSwitcherChannel"); }
         void setup();
         void update(DrawModel & model, StateModel & state);
@@ -32,9 +29,8 @@ class ChannelSwitcher : public Channel {
     private:
         void processBeat(float amp, float vel);
         std::vector<Channel*> mpChannels;
-        int mCurrentChannel;
+        ModeManager<int> mModeManager;
         SwitcherTrigger mTrigger;
-        SwitcherMode mMode;
 };
 
 #endif

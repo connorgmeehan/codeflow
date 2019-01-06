@@ -5,10 +5,11 @@
 #include "Context.h"
 #include "DrawModel.h"
 #include "ChannelSwitcher.h"
+#include "ModeManager.h"
 
 class ContextSwitcher : public Context {
     public:
-        ContextSwitcher(SwitcherTrigger trigger, SwitcherMode mode);
+        ContextSwitcher(SwitcherTrigger trigger, ModeManagerType mode, int interval = 0);
         std::string getName(){ return std::string("ContextSwitcherContext"); }
         void setup();
         void update(DrawModel & model, StateModel & state);
@@ -23,9 +24,8 @@ class ContextSwitcher : public Context {
     private:
         void processBeat(float amp, float vel);
         std::vector<Context*> mpContexts;
-        int mCurrentContext;
         SwitcherTrigger mTrigger;
-        SwitcherMode mMode;
+        ModeManager<int> mModeManager;
 };
 
 #endif
