@@ -19,8 +19,8 @@ void TextFloat::update(DrawModel & model, StateModel & state){
 void TextFloat::draw(DrawModel & model, StateModel & state){
     float offset = -mTotalWidth/2;
     for(auto & message : mMessage) {
-        mFont.drawStringAsShapes(newMessage, offset, 0);
-        offset += mFont.stringWidth(newMessage);
+        mFont.drawStringAsShapes(message, offset, 0);
+        offset += mFont.stringWidth(message);
     }
 }
 
