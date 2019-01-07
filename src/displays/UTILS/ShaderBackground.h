@@ -7,24 +7,31 @@
 
 class ShaderBackground : public Channel {
     public:
-        ShaderBackground(std::string shaderPath) : mShaderPath(shaderPath) {
-            mShader.load(shaderPath);
+        ShaderBackground(std::string shaderPath = "") : mShaderPath(shaderPath) {
+            if(shaderPath != "" ){
+                mShader.load(shaderPath);
+                mHasShader = true;
+            }
         }
         std::string getName(){ return std::string("ShaderBackgroundChannel"); }
         void setup() {}
         void update(DrawModel & model, StateModel & state) {}
         void draw(DrawModel & model, StateModel & state) {
-            mShader.begin();
+            if(mHasShader) {
+                mShader.begin();
 
-            mShader.setUniform2f("u_resolution", state.mResolution.x, state.mResolution.y);
-            mShader.setUniform1f("u_time", state.mTime);
-            mShader.setUniform1f("kick", model.beats[0].mAmp);
-            mShader.setUniform1f("snare", model.beats[1].mAmp);
-            mShader.setUniform1f("kick", model.beats[2].mAmp);
+                mShader.setUniform2f("u_resolution", state.mResolution.x, state.mResolution.y);
+                mShader.setUniform1f("u_time", state.mTime);
+                mShader.setUniform1f("kick", model.beats[0].mAmp);
+                mShader.setUniform1f("snare", model.beats[1].mAmp);
+                mShader.setUniform1f("kick", model.beats[2].mAmp);
+            }
 
             ofDrawPlane(0, 0,10000, 10000);
-
-            mShader.end();
+            
+            if(mHasShader) {
+                mShader.end();
+            }
         }
 
         void onKick(float amp, float vel) {
@@ -36,6 +43,7 @@ class ShaderBackground : public Channel {
     private:
         ofShader mShader;
         std::string mShaderPath;
+        bool mHasShader;
 };
 
 #endif

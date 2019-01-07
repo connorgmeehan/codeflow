@@ -8,8 +8,9 @@
 
 class TextureShader : public Context {
     public:
-        TextureShader(std::string shaderPath, HasTexture * pHasTexture)
-            :mpHasTexture(pHasTexture) {
+        TextureShader(std::string shaderPath, HasTexture * pHasTexture, HasTexture * pHasTextureSecondary = nullptr)
+            :mpHasTexture(pHasTexture),
+            mpHasTextureSecondary(pHasTextureSecondary) {
             mShader.load(shaderPath);
         }
         std::string getName(){ return std::string("TextureShaderContext"); }
@@ -20,6 +21,9 @@ class TextureShader : public Context {
         void begin(DrawModel & model, StateModel & state){
             mShader.begin();
             mShader.setUniformTexture("tex0", mpHasTexture->getTexture(), 0);
+            if(mpHasTextureSecondary != nullptr) {
+                mShader.setUniformTexture("tex1", mpHasTextureSecondary->getTexture(), 1);
+            }
             mShader.setUniform2i("u_resolution", state.mResolution.x, state.mResolution.y);
             mShader.setUniform1f("u_time", state.mTime);
         }
@@ -33,6 +37,7 @@ class TextureShader : public Context {
     private:
         ofShader mShader;
         HasTexture * mpHasTexture;
+        HasTexture * mpHasTextureSecondary;
 };
 
 #endif
