@@ -4,6 +4,16 @@
 #include "ofMain.h"
 #include "Channel.h"
 #include "DrawModel.h"
+#include "ModeManager.h"
+
+enum SpikedModes {
+    TRIG_1,
+    TRIG_2,
+    TRIG_3,
+    TRIG_4,
+    TRIG_5,
+    TRIG_6,
+};
 
 class SpikedBall : public Channel {
     public:
@@ -17,6 +27,7 @@ class SpikedBall : public Channel {
         void onSnare(float amp, float vel);
         void onHat(float amp, float vel);
     private:
+        ModeManager<SpikedModes> mModeManager;
         int mSegments;
         float mRadius;
         ofMesh mMesh;
