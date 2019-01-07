@@ -5,7 +5,6 @@ DisplayManager::DisplayManager(AudioAnalyser * pAudioAnalyser) :
     TIME_SAMPLE_SET_FRAMERATE(60.0f); 
 
     mStateModel.mResolution = glm::vec2(1024, 768);
-    glPointSize(3.0f);
 }
 
 void DisplayManager::setup(){
@@ -49,6 +48,7 @@ void DisplayManager::update(DrawModel & model){
 
 void DisplayManager::draw(DrawModel & model){
     TS_START("draw");
+    glPointSize(3.0f);
     ofBackground(0);
     
     for(auto & drawable : mDrawQue) {
@@ -90,15 +90,15 @@ void DisplayManager::setupChannels() {
                 PerlinOctopus * shortPerlin = new PerlinOctopus(0.5f, 10.0f, 0.1f, 800.0f, 4);
 
 
-                ChannelSwitcher * switcher1 = new ChannelSwitcher(SWITCHER_HAT, MODE_CYCLE);
+                ChannelSwitcher * switcher1 = new ChannelSwitcher(SWITCHER_HAT, MODE_SHUFFLE, 8);
                 switcher1
                     ->addChannel(perlinOctopus)
                     ->addChannel(shortPerlin)
                     ->addChannel(fftHistory)
                     ->addChannel(spikyball);
                 mDrawQue.push_back(switcher1);
-                
-                ChannelSwitcher * switcher2 = new ChannelSwitcher(SWITCHER_HAT, MODE_CYCLE);
+
+                ChannelSwitcher * switcher2 = new ChannelSwitcher(SWITCHER_HAT, MODE_SHUFFLE, 8);
                 switcher2
                     ->addChannel(perlinOctopus)
                     ->addChannel(shortPerlin)

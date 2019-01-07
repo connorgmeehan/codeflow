@@ -1,7 +1,7 @@
 #include "FFTHistoryPlane.h"
 
 FFTHistoryPlane::FFTHistoryPlane(int historyLength) :
-    mPointDistance(glm::vec2(4, 4)),
+    mPointDistance(glm::vec2(6, 6)),
     mMaxHeight(100.0f)
     {
     mHistoryLength = historyLength;
@@ -47,7 +47,7 @@ void FFTHistoryPlane::draw(DrawModel & model, StateModel & state){
 
     switch(mModeManager.getMode()) {
         case FFT_HISTORY_PATCHES:
-            mFFTMesh.setMode(OF_PRIMITIVE_PATCHES);
+            mFFTMesh.setMode(OF_PRIMITIVE_LINE_STRIP);
         break;
         case FFT_HISTORY_POINTS:
             mFFTMesh.setMode(OF_PRIMITIVE_POINTS);
