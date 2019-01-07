@@ -5,6 +5,7 @@ DisplayManager::DisplayManager(AudioAnalyser * pAudioAnalyser) :
     TIME_SAMPLE_SET_FRAMERATE(60.0f); 
 
     mStateModel.mResolution = glm::vec2(1024, 768);
+    glPointSize(3.0f);
 }
 
 void DisplayManager::setup(){
@@ -77,25 +78,40 @@ void DisplayManager::setupChannels() {
     mDrawQue.push_back(new TextureDrawer(fboContext));
 
     // Foreground
+    VibratingContext * vibrating = new VibratingContext(400, 1.0);
     TextureShader * inverseShader = new TextureShader("shaders/utils/inverse", fboContext);
     mDrawQue.push_back(inverseShader);
-        VibratingContext * vibratingContext = new VibratingContext(200, 1.0, 0.05);
-        mDrawQue.push_back(vibratingContext);
-            mDrawQue.push_back(cam);
+        mDrawQue.push_back(cam);
+            mDrawQue.push_back(vibrating);
 
-                FFTHistoryPlane * fftHistory = new FFTHistoryPlane(200);
-
+                FFTHistoryPlane * fftHistory = new FFTHistoryPlane(100);
+                SpikedBall * spikyball = new SpikedBall(500,20);
                 PerlinOctopus * perlinOctopus = new PerlinOctopus(0.5f, 5.0f, 0.1f, 800.0f, 10);
                 PerlinOctopus * shortPerlin = new PerlinOctopus(0.5f, 10.0f, 0.1f, 800.0f, 4);
 
-                ChannelSwitcher * switcher = new ChannelSwitcher(SWITCHER_HAT, MODE_CYCLE);
-                switcher->addChannel(perlinOctopus)->addChannel(shortPerlin)->addChannel(fftHistory);
-                mDrawQue.push_back(switcher);
-                mDrawQue.push_back(fftHistory);
+
+                ChannelSwitcher * switcher1 = new ChannelSwitcher(SWITCHER_HAT, MODE_CYCLE);
+                switcher1
+                    ->addChannel(perlinOctopus)
+                    ->addChannel(shortPerlin)
+                    ->addChannel(fftHistory)
+                    ->addChannel(spikyball);
+                mDrawQue.push_back(switcher1);
+                
+                ChannelSwitcher * switcher2 = new ChannelSwitcher(SWITCHER_HAT, MODE_CYCLE);
+                switcher2
+                    ->addChannel(perlinOctopus)
+                    ->addChannel(shortPerlin)
+                    ->addChannel(fftHistory)
+                    ->addChannel(spikyball);
+                // mDrawQue.push_back(switcher);
+                // mDrawQue.push_back(fftHistory);
+                mDrawQue.push_back(switcher2);
                     
-            mDrawQue.push_back(cam);
-        mDrawQue.push_back(vibratingContext);
+            mDrawQue.push_back(vibrating);
+        mDrawQue.push_back(cam);
     mDrawQue.push_back(inverseShader);
+
 
     
 

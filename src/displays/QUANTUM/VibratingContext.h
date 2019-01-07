@@ -8,7 +8,7 @@
 class VibratingContext : public Context {
     public:
         VibratingContext() {}
-        VibratingContext(float maxDistance, float power, float interval);
+        VibratingContext(float maxDistance, float power);
         std::string getName(){ return std::string("VibratingContext"); }
         void setup();
         void update(DrawModel & model, StateModel & state);

@@ -1,6 +1,6 @@
 #include "VibratingContext.h"
 
-VibratingContext::VibratingContext(float maxDistance, float power, float interval) :
+VibratingContext::VibratingContext(float maxDistance, float power) :
     mMaxDistance(maxDistance),
     mPowerMultiplier(power),
     mCurrentDirection(1.0f),
@@ -19,6 +19,7 @@ void VibratingContext::begin(DrawModel & model, StateModel & state){
     ofPushMatrix();
         float dist = (1.0 / (1.0 + std::exp(-10 * mSmoothedAmp))) - 0.5;
         mCurrentDirection *= -1.0f;
+        ofLog() << "VibratingCotnext::begin() mCurrentDirection ->" << mCurrentDirection * dist * mMaxDistance;
 
         ofTranslate(
             0,

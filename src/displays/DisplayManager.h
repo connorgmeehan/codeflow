@@ -27,6 +27,7 @@
 #include "BRUTAL/FFTHistoryPlane.h"
 #include "BRUTAL/PerlinOctopus.h"
 #include "BRUTAL/StepCamera.h"
+#include "BRUTAL/SpikedBall.h"
 
 #include "QUANTUM/VibratingContext.h"
 
