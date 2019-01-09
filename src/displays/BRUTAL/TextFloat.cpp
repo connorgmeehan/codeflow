@@ -2,6 +2,7 @@
 
 TextFloat::TextFloat(std::string fontPath, std::string message, int fontSize) {
     mFont.load(fontPath, fontSize, true, true, true);
+    mVertWarpShader.load("shaders/base.vert","shaders/utils/perlinwarp.frag");
 
     istringstream in(message);
     copy(istream_iterator<string>(in), istream_iterator<string>(), back_inserter(mMessage));
@@ -17,10 +18,11 @@ void TextFloat::update(DrawModel & model, StateModel & state){
 }
 
 void TextFloat::draw(DrawModel & model, StateModel & state){
-    float offset = -mTotalWidth/2;
+    mOffset += 2.0f;
+    float textOffset = 0.0f;
     for(auto & message : mMessage) {
-        mFont.drawStringAsShapes(message, offset, 0);
-        offset += mFont.stringWidth(message);
+        mFont.drawString(message, fmodf(mOffset + textOffset, mTotalWidth)-mTotalWidth/2, 0);
+        textOffset += mFont.stringWidth(message) + 30.0f;
     }
 }
 

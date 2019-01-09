@@ -28,6 +28,9 @@
 #include "BRUTAL/PerlinOctopus.h"
 #include "BRUTAL/StepCamera.h"
 #include "BRUTAL/SpikedBall.h"
+#include "BRUTAL/TextFloat.h"
+#include "BRUTAL/MessageCloud.h"
+#include "BRUTAL/TrigDeath.h"
 
 #include "QUANTUM/VibratingContext.h"
 

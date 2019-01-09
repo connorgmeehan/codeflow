@@ -20,6 +20,8 @@ class TextFloat : public Channel {
         std::vector<std::string> mMessage;
         ofTrueTypeFont mFont;
         float mTotalWidth;
+        float mOffset;
+        ofShader mVertWarpShader;
 };
 
 #endif
