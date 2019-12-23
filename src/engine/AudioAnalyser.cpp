@@ -8,7 +8,7 @@ void AudioAnalyser::setup() {
 
     mSignalAnalyser.setBufferSize(BUFFER_SIZE);
     mSignalAnalyser.setCallback(std::bind(&BeatAnalyser::audioIn, &mBeatAnalyser, std::placeholders::_1));    
-    mSignalAnalyser.setup("default");
+    mSignalAnalyser.setup();
 }
 
 DrawModel & AudioAnalyser::getDrawModel() {

@@ -1,7 +1,6 @@
 #include "SignalAnalyser.h"
 
 SignalAnalyser::SignalAnalyser() : ofxFFTBase() {
-    soundStream = NULL;
     setMirrorData(true);
     setThreshold(0.1f);
     setPeakDecay(0.75f);
@@ -9,20 +8,24 @@ SignalAnalyser::SignalAnalyser() : ofxFFTBase() {
 }
 
 SignalAnalyser::~SignalAnalyser() {
-    if(soundStream == NULL) {
-        return;
-    }
+    soundStream.stop();
+    soundStream.close();
+}
 
-    soundStream->stop();
-    soundStream->close();
-    delete soundStream;
-    soundStream = NULL;
+void SignalAnalyser::setup() {
+    auto devices = soundStream.getDeviceList(ofSoundDevice::Api::ALSA);
+    for(auto & device : devices) {
+        if (device.isDefaultInput) {
+            setup(device);
+            return;
+        }
+    }
 }
 
 void SignalAnalyser::setup(std::string deviceName) {
-    soundStream = new ofSoundStream();
+    soundStream.printDeviceList();
 
-    auto devices = soundStream->getMatchingDevices(deviceName);
+    auto devices = soundStream.getMatchingDevices(deviceName);
     if(!devices.empty()) {
         setup(devices[0]);
         return;
@@ -31,22 +34,18 @@ void SignalAnalyser::setup(std::string deviceName) {
 }
 
 void SignalAnalyser::setup(ofSoundDevice & device) {
-    soundStream = new ofSoundStream();
-
     ofLog() << "SignalAnalyser::setup() -> device["<<device.deviceID<<"] " << device.name << " in: " << device.inputChannels << ", out: " << device.outputChannels;
     
-    soundStream->setDevice(device);
-    soundStream->printDeviceList();
+    soundStream.setDevice(device);
     ofSoundStreamSettings settings;
+    settings.setInDevice(device);
     settings.setInListener(this);
     settings.numInputChannels = 1;
     settings.numOutputChannels = 0;
     settings.sampleRate = 44100;
     settings.bufferSize = getBufferSize();
-    settings.numBuffers = 4;
-    settings.setInDevice(device);
 
-    soundStream->setup(settings);
+    soundStream.setup(settings);
     // soundStream->setup(this,                   // callback obj.
     //                    0,                      // out channels.
     //                    1,                      // in channels.
