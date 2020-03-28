@@ -13,13 +13,14 @@ SignalAnalyser::~SignalAnalyser() {
 }
 
 void SignalAnalyser::setup() {
-    auto devices = soundStream.getDeviceList(ofSoundDevice::Api::ALSA);
+    auto devices = soundStream.getDeviceList(ofSoundDevice::Api::PULSE);
     for(auto & device : devices) {
         if (device.isDefaultInput) {
             setup(device);
             return;
         }
     }
+    ofLog(OF_LOG_ERROR) << "SignalAnalyser::setup() -> No default devices found! ";
 }
 
 void SignalAnalyser::setup(std::string deviceName) {
